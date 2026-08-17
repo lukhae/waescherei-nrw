@@ -1,0 +1,54 @@
+---
+import { Icon } from 'astro-icon/components';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+
+const rhythmen = [
+  { label: 'Einmalig',       note: 'Zum Ausprobieren',        featured: false },
+  { label: 'Wöchentlich',    note: 'Beliebteste Wahl',        featured: true  },
+  { label: 'Alle 2 Wochen',  note: 'Für kleinere Haushalte',  featured: false },
+  { label: 'Alle 4 Wochen',  note: 'Nur ab und zu',           featured: false },
+];
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <HeadingSection
+      badge="Ihr Rhythmus"
+      heading="Sie bestimmen, wie oft wir kommen"
+      description="Einmal ausprobieren oder dauerhaft entspannen. Im Abo günstiger und die Lieferung ist immer frei."
+      align="center"
+    />
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {rhythmen.map((r) => (
+        <div class:list={[
+          'relative rounded-2xl p-6 text-center border transition',
+          r.featured
+            ? 'bg-secondary-500 border-secondary-500 text-white shadow-xl'
+            : 'bg-secondary-50 border-secondary-100 text-secondary-600 hover:border-primary-300',
+        ]}>
+          {r.featured && (
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary-500 text-white text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full">
+              Beliebt
+            </span>
+          )}
+          <Icon name="bi:arrow-repeat" class:list={['w-7 h-7 mx-auto mb-3', r.featured ? 'text-primary-400' : 'text-primary-500']} />
+          <div class="font-heading font-bold text-lg">{r.label}</div>
+          <div class:list={['text-sm mt-1', r.featured ? 'text-secondary-100' : 'text-secondary-400']}>{r.note}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3">
+      <span class="inline-flex items-center gap-2 text-sm text-secondary-500">
+        <Icon name="bi:check-circle-fill" class="w-4 h-4 text-primary-500" /> Im Abo günstiger als einzeln
+      </span>
+      <span class="inline-flex items-center gap-2 text-sm text-secondary-500">
+        <Icon name="bi:check-circle-fill" class="w-4 h-4 text-primary-500" /> Lieferung immer frei
+      </span>
+      <span class="inline-flex items-center gap-2 text-sm text-secondary-500">
+        <Icon name="bi:check-circle-fill" class="w-4 h-4 text-primary-500" /> Jederzeit kündbar
+      </span>
+    </div>
+  </div>
+</section>

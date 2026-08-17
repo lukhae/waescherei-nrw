@@ -54,5 +54,11 @@ export default defineConfig({
       cssVariable: '--font-body',
       weights: ['300', '400', '500', '600', '700', '800'],
     },
+    {
+      provider: fontProviders.google(),
+      name: 'Sora',
+      cssVariable: '--font-heading-src',
+      weights: ['400', '500', '600', '700', '800'],
+    },
   ],
 });

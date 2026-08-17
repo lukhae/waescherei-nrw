@@ -1,24 +1,26 @@
 @import "tailwindcss";
 @theme {
-    --color-primary-50: #EDF9FC; 
-    --color-primary-100: #C8EEF7; 
-    --color-primary-200: #9ADDEF; 
-    --color-primary-300: #6CCCE7; 
-    --color-primary-400: #4DB8D4; 
-    --color-primary-500: #2DA5C1; 
-    --color-primary-600: #2088A0; 
-    --color-primary-700: #186A7E; 
+    /* Primary = Royalblau – Akzente, Buttons, Links (Cents-Stil) */
+    --color-primary-50: #EFF5FE;
+    --color-primary-100: #D6E7FC;
+    --color-primary-200: #AECFF9;
+    --color-primary-300: #7DB0F5;
+    --color-primary-400: #4A90F0;
+    --color-primary-500: #1E70DE;
+    --color-primary-600: #0567D5;
+    --color-primary-700: #0E4E9E;
 
-    --color-secondary-50: #E8EDF5; 
-    --color-secondary-100: #C5D1E6; 
-    --color-secondary-200: #8DA5CC; 
-    --color-secondary-300: #4F74A8; 
-    --color-secondary-400: #1E4A84; 
-    --color-secondary-500: #0D2B52; 
-    --color-secondary-600: #081D38; 
-    --color-secondary-700: #040E1C;
+    /* Secondary = Navy – Header, Hero, dunkle Flaechen, Text */
+    --color-secondary-50: #F1F4FA;
+    --color-secondary-100: #DDE4F0;
+    --color-secondary-200: #B6C3DB;
+    --color-secondary-300: #8194B5;
+    --color-secondary-400: #4E5F82;
+    --color-secondary-500: #16294F;
+    --color-secondary-600: #0E1D3B;
+    --color-secondary-700: #081228;
 
-    --font-heading: var(--font-body), serif;
+    --font-heading: var(--font-heading-src), sans-serif;
     --font-body: var(--font-body), sans-serif;
 }
 @layer base {
@@ -46,7 +48,7 @@ html { scroll-behavior: smooth; }
 
 /*background waves*/
 .bg-waves {
-  background-image: url("data:image/svg+xml,%3Csvg%20width%3D'40'%20height%3D'20'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%20d%3D'M0%2010%20Q10%200%2020%2010%20T40%2010'%20fill%3D'none'%20stroke%3D'%23008080'%20stroke-width%3D'1.5'%20stroke-opacity%3D'0.15'%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg%20width%3D'40'%20height%3D'20'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%20d%3D'M0%2010%20Q10%200%2020%2010%20T40%2010'%20fill%3D'none'%20stroke%3D'%234A90F0'%20stroke-width%3D'1.5'%20stroke-opacity%3D'0.2'%2F%3E%3C%2Fsvg%3E");
   background-repeat: repeat;
 }
 /* Sticky nav transition */
@@ -56,9 +58,14 @@ html { scroll-behavior: smooth; }
 }
 
 .hero-bg {
-  background:
-    linear-gradient(to right, #0D2B52 0%, #0D2B52 45%, rgba(13,43,82,0.90) 65%, rgba(26,74,122,0.82) 100%),
-    url('/img/industry-kirche.jpg') right center/cover no-repeat;
+  background-color: #1E4C8A;
+  background-image:
+    radial-gradient(1100px 520px at 85% -10%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 60%),
+    linear-gradient(135deg, rgba(31,86,158,0.90) 0%, rgba(23,62,120,0.88) 55%, rgba(30,112,222,0.82) 135%),
+    url('/img/waeschebutler-map-duesseldorf.png');
+  background-size: auto, auto, cover;
+  background-position: center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
 }
 [x-cloak] { display:none !important; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
@@ -74,7 +81,7 @@ html { scroll-behavior: smooth; }
   position: absolute;
   bottom: 0; left: 0;
   width: 0; height: 3px;
-  background: #de2238;
+  background: #1E70DE;
   transition: width 0.35s ease;
   border-radius: 0 0 0 0;
 }

@@ -3,52 +3,80 @@ import { Icon } from 'astro-icon/components';
 import FormInput    from '@src/components/ui/FormInput.astro';
 import FormSelect   from '@src/components/ui/FormSelect.astro';
 import FormTextarea from '@src/components/ui/FormTextarea.astro';
+import { contactServices } from '@src/data/homepageData';
+import { SITE } from '@src/data/site';
 
 interface Props {
   services?: string[];
+  endpoint?: string;
 }
 
-import { contactServices } from '@src/data/homepageData';
-const { services = contactServices } = Astro.props;
+const { services = contactServices, endpoint = SITE.FORM_ENDPOINT } = Astro.props;
 ---
 
 <div
   class="bg-gray-50 border border-gray-200 p-8 rounded-lg"
-  x-data="{ form: { name:'', company:'', email:'', phone:'', service:'', message:'' }, submitted: false, submit() { this.submitted = true } }"
+  x-data={`{
+    form: { name:'', email:'', phone:'', service:'', message:'' },
+    submitted: false,
+    error: false,
+    sending: false,
+    async submit() {
+      this.error = false; this.sending = true;
+      try {
+        const res = await fetch('${endpoint}', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(this.form),
+        });
+        if (res.ok) { this.submitted = true; } else { this.error = true; }
+      } catch (e) { this.error = true; }
+      this.sending = false;
+    }
+  }`}
 >
-  <div x-show="!submitted">
+  <form x-show="!submitted" @submit.prevent="submit()">
     <div class="grid sm:grid-cols-2 gap-4 mb-4">
-      <FormInput label="Vollständiger Name" name="name"    placeholder="Max Mustermann"              required model="form.name" />
-      <FormInput label="Einrichtung"       name="company" placeholder="z.B. Caritas Pflegezentrum"   required model="form.company" />
-    </div>
-    <div class="grid sm:grid-cols-2 gap-4 mb-4">
-      <FormInput label="E-Mail"    name="email" type="email" placeholder="max@einrichtung.de"  required model="form.email" />
-      <FormInput label="Telefon"   name="phone" type="tel"   placeholder="+49 211 000 0000"   model="form.phone" />
+      <FormInput label="Ihr Name" name="name" placeholder="Max Mustermann" required model="form.name" />
+      <FormInput label="Telefon" name="phone" type="tel" placeholder={SITE.PHONE} model="form.phone" />
     </div>
     <div class="mb-4">
-      <FormSelect label="Gewünschte Leistung" name="service" options={services} required model="form.service" />
+      <FormInput label="E-Mail" name="email" type="email" placeholder="max@beispiel.de" required model="form.email" />
+    </div>
+    <div class="mb-4">
+      <FormSelect label="Ihr Anliegen" name="service" options={services} required model="form.service" />
     </div>
     <div class="mb-6">
       <FormTextarea label="Nachricht" name="message" rows={4}
-        placeholder="Beschreiben Sie kurz Ihre Einrichtung, den gewünschten Rhythmus und besondere Anforderungen..."
+        placeholder="Erzählen Sie uns kurz, worum es geht: wie oft, wie viel Wäsche, für wen..."
         model="form.message" />
     </div>
     <button
-      @click="submit()"
-      class="w-full inline-flex justify-center items-center gap-2 bg-primary-300 text-secondary-600 py-4 font-semibold text-sm tracking-wide hover:bg-primary-200 transition-colors rounded"
+      type="submit"
+      :disabled="sending"
+      class="w-full inline-flex justify-center items-center gap-2 bg-primary-300 text-secondary-600 py-4 font-semibold text-sm tracking-wide hover:bg-primary-200 transition-colors rounded disabled:opacity-60"
     >
-      <Icon name="bi:send-fill" class="w-4 h-4" /> Anfrage senden
+      <Icon name="bi:send-fill" class="w-4 h-4" />
+      <span x-text="sending ? 'Wird gesendet...' : 'Anfrage senden'"></span>
     </button>
+
+    <p x-show="error" x-cloak class="text-sm text-center mt-4 text-red-600">
+      Da ist etwas schiefgelaufen. Bitte rufen Sie uns an unter
+      <a href={SITE.PHONE_HREF} class="font-semibold underline">{SITE.PHONE}</a>
+      oder schreiben an
+      <a href={SITE.EMAIL_HREF} class="font-semibold underline">{SITE.EMAIL}</a>.
+    </p>
+
     <p class="text-xs text-gray-600 text-center mt-4">
       <Icon name="bi:shield-check" class="w-4 h-4 text-primary-400 inline" /> Ihre Daten werden vertraulich behandelt und nicht weitergegeben.
     </p>
-  </div>
+  </form>
 
   <div x-show="submitted" x-cloak class="text-center py-12">
     <div class="w-16 h-16 bg-primary-50 flex items-center justify-center mx-auto mb-4 rounded-lg">
       <Icon name="bi:check-circle-fill" class="w-10 h-10 text-primary-400" />
     </div>
     <h3 class="font-heading font-bold text-2xl text-secondary-600 mb-2">Anfrage erhalten!</h3>
-    <p class="text-gray-600 font-light text-sm">Wir melden uns innerhalb weniger Stunden für eine kostenlose Besichtigung bei Ihnen.</p>
+    <p class="text-gray-600 font-light text-sm">Vielen Dank. Wir melden uns zeitnah bei Ihnen.</p>
   </div>
 </div>

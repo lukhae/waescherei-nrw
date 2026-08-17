@@ -1,0 +1,35 @@
+---
+import MainLayout     from '@layouts/MainLayout.astro';
+import HeroSection     from '@src/components/sections/HeroSection.astro';
+import HowSection      from '@src/components/sections/HowSection.astro';
+import AngeboteSection from '@src/components/sections/AngeboteSection.astro';
+import WhySection      from '@src/components/sections/WhySection.astro';
+import FaqSection      from '@src/components/sections/FaqSection.astro';
+import CtaSection      from '@src/components/sections/CtaSection.astro';
+import ContactSection  from '@src/components/sections/ContactSection.astro';
+import { hero, steps, whyItems, faqs, cta } from '@src/data/privatData';
+---
+
+<MainLayout
+  title="Wäscheservice Düsseldorf – Abholen, Waschen, Liefern | Wäschebutler"
+  description="Ihr Wäscheservice in Düsseldorf: Wir holen ab, waschen, falten und bringen frisch zurück. Abholung und Lieferung inklusive. Einzeln oder im Abo."
+>
+  <HeroSection data={hero} />
+  <HowSection
+    steps={steps}
+    badge="So einfach geht es"
+    heading="In vier Schritten zur frischen Wäsche"
+  />
+  <AngeboteSection />
+  <WhySection
+    items={whyItems}
+    badge="Warum Wäschebutler"
+    heading="Warum Wäschebutler?"
+    description="Weil Ihre Zeit zu schade ist, um sie am Trockner zu verbringen. Wir nehmen Ihnen die Wäsche komplett ab, zuverlässig und mit einem festen Gesicht."
+    image="/img/waeschebutler-abholung.webp"
+    accolade={{ value: '0 €', label: 'Abholung & Lieferung' }}
+  />
+  <FaqSection faqs={faqs} badge="FAQ" heading="Häufige Fragen" />
+  <CtaSection data={cta} />
+  <ContactSection />
+</MainLayout>

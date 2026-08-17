@@ -2,6 +2,7 @@
 import { url } from '@src/utils/path';
 import { Icon } from 'astro-icon/components';
 import Logo from './ui/Logo.astro';
+import { SITE } from '@src/data/site';
 
 interface NavLink { label: string; href: string; }
 
@@ -14,15 +15,12 @@ interface Props {
 
 const {
   links = [
-    { label: 'Startseite',    href: url('/')            },
-    { label: 'Über uns',      href: url('/about')       },
-    { label: 'Einrichtungen', href: url('/industries')  },
-    { label: 'Leistungen',   href: url('/services')    },
-    { label: 'Einsatzgebiet', href: url('/service-area')},
-    { label: 'Blog',          href: url('/blogs')       },
+    { label: 'So funktioniert es', href: url('/') + '#services' },
+    { label: 'Entlastungsbetrag',  href: url('/') + '#pflege'   },
+    { label: 'Kontakt',            href: url('/contact')        },
   ],
-  phone     = '+49 211 000 0000',
-  phoneHref = 'tel:+492110000000',
+  phone     = SITE.PHONE,
+  phoneHref = SITE.PHONE_HREF,
   quoteHref = url('/contact'),
 } = Astro.props;
 
@@ -69,8 +67,8 @@ function isActive(href: string): boolean {
         <a href={phoneHref} class="inline-flex items-center gap-2 text-sm transition text-white hover:text-primary-200">
           <Icon name="bi:telephone-fill" class="w-4 h-4" /> {phone}
         </a>
-        <a href={quoteHref} class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-300 text-secondary-600 text-sm font-bold tracking-wide hover:bg-primary-200 transition rounded">
-          Angebot anfragen <Icon name="bi:arrow-right" class="w-4 h-4" />
+        <a href={quoteHref} class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary-500 to-primary-700 text-white text-sm font-bold tracking-wide hover:brightness-110 transition rounded-full shadow-sm">
+          Anfragen <Icon name="bi:arrow-right" class="w-4 h-4" />
         </a>
       </div>
 

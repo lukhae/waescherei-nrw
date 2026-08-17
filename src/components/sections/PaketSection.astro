@@ -1,0 +1,58 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import PaketRechner from '@src/components/sections/PaketRechner.astro';
+import { paket } from '@src/data/pflegeData';
+---
+
+<section id="pflege" class="py-24 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <HeadingSection
+      badge="Mit Pflegegrad"
+      heading="Die Pflegekasse zahlt Ihren Wäscheservice"
+      align="center"
+    />
+
+    <!-- Hauptkarte -->
+    <div class="rounded-3xl bg-secondary-500 text-white overflow-hidden shadow-2xl">
+      <div class="grid md:grid-cols-2">
+        <div class="p-10 flex flex-col justify-center bg-secondary-600">
+          <span class="inline-flex self-start items-center gap-2 bg-primary-400/20 border border-primary-400/40 text-primary-200 text-xs font-semibold tracking-widest uppercase px-3 py-1 rounded-full mb-6">
+            <Icon name="bi:heart" class="w-4 h-4" /> {paket.badge}
+          </span>
+          <h3 class="font-heading font-bold text-2xl mb-2">{paket.name}</h3>
+          <p class="text-secondary-100 mb-8">{paket.tagline}</p>
+          <div class="flex items-baseline gap-2">
+            <span class="text-6xl font-heading font-extrabold text-primary-400">{paket.price}</span>
+          </div>
+          <p class="text-sm text-secondary-100 mt-1">{paket.priceNote}</p>
+          <p class="mt-4 text-sm text-secondary-100">{paket.budget}</p>
+          <a
+            href={url('/contact')}
+            class="mt-8 inline-flex items-center justify-center gap-2 bg-primary-500 text-white py-4 px-6 text-sm font-bold rounded-full hover:bg-primary-400 transition"
+          >
+            Kostenlos beraten lassen <Icon name="bi:arrow-right" class="w-4 h-4" />
+          </a>
+        </div>
+        <div class="p-10">
+          <ul class="space-y-4">
+            {paket.features.map((f) => (
+              <li class="flex items-start gap-3">
+                <Icon name="bi:check-circle-fill" class="w-5 h-5 text-primary-400 mt-0.5 shrink-0" />
+                <span class="text-secondary-50">{f}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interaktiver Rechner -->
+    <div class="mt-8">
+      <PaketRechner />
+    </div>
+
+    <p class="mt-6 text-center text-sm text-secondary-400 max-w-2xl mx-auto">{paket.note}</p>
+  </div>
+</section>

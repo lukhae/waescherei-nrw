@@ -13,9 +13,11 @@ interface Props {
   description?: string;
 }
 
+import { SITE } from '@src/data/site';
+
 const {
-  title       = 'Reinigung im Raum der Kirchen — Professionelle Reinigung in NRW',
-  description = 'Spezialisierte Reinigungsdienstleistungen für Kirchen, Caritas, Diakonie und kirchliche Einrichtungen in Köln, Düsseldorf und dem Ruhrgebiet.',
+  title       = 'Wäschebutler Düsseldorf — Wäscheservice mit Abholung, privat & mit Pflegegrad',
+  description = 'Wäscheservice in Düsseldorf mit Abholung und Lieferung. Für Privatkunden und für Menschen mit Pflegegrad über den Entlastungsbetrag.',
 } = Astro.props;
 ---
 
@@ -26,17 +28,18 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="[Firmenname]" />
+    <meta name="author" content={SITE.NAME} />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href={Astro.url?.href || 'https://cleaning.madethemes.com'} />
+    <link rel="canonical" href={Astro.url?.href || `https://${SITE.DOMAIN}`} />
     <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
 
     <!-- Astro Font API  -->
-    <Font cssVariable="--font-body"    preload />
+    <Font cssVariable="--font-body"        preload />
+    <Font cssVariable="--font-heading-src" preload />
     <slot name="head" />
   </head>
 
-  <body class="bg-white text-secondary-600 antialiased pt-24">
+  <body class="bg-white text-secondary-400 antialiased pt-24">
     <Header />
     <main>
       <slot />

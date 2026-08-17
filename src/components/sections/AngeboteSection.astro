@@ -1,0 +1,91 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import type { OfferItem } from '@src/data/privatData';
+import { offers as defaultOffers, offerIncluded as defaultIncluded, offerNotes as defaultNotes } from '@src/data/privatData';
+
+interface Props {
+  offers?:   OfferItem[];
+  included?: string[];
+  notes?:    { abo: string; firstOrder: string; disclaimer: string };
+  badge?:    string;
+  heading?:  string;
+  description?: string;
+}
+
+const {
+  offers      = defaultOffers,
+  included    = defaultIncluded,
+  notes       = defaultNotes,
+  badge       = 'Angebote',
+  heading     = 'Wählen Sie einfach Ihre Größe',
+  description = 'Kein Wiegen, kein Rechnen. Sie füllen den Sack, wir kümmern uns um den Rest.',
+} = Astro.props;
+---
+
+<section id="angebote" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge={badge} heading={heading} description={description} align="center" />
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {offers.map((o) => (
+        <div class:list={[
+          'relative flex flex-col rounded-2xl p-8 transition',
+          o.featured
+            ? 'bg-secondary-500 text-white shadow-2xl lg:-translate-y-3'
+            : 'bg-secondary-50 text-secondary-600 hover:shadow-lg',
+        ]}>
+          {o.featured && (
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary-400 text-secondary-600 text-xs font-bold tracking-widest uppercase px-4 py-1 rounded-full">
+              Beliebt
+            </span>
+          )}
+          <div class:list={['text-5xl font-heading font-extrabold mb-1', o.featured ? 'text-primary-400' : 'text-secondary-300']}>{o.size}</div>
+          <div class="font-heading font-bold text-lg mb-1">{o.name}</div>
+          <div class:list={['text-sm mb-6', o.featured ? 'text-secondary-100' : 'text-secondary-400']}>{o.capacity} · {o.hint}</div>
+          <div class="mt-auto">
+            <div class="flex items-baseline gap-1">
+              <span class:list={['text-sm', o.featured ? 'text-secondary-100' : 'text-secondary-400']}>ab</span>
+              <span class="text-4xl font-heading font-bold">{o.price}</span>
+              <span class="text-lg">€</span>
+            </div>
+            <a
+              href={url('/contact')}
+              class:list={[
+                'mt-5 inline-flex w-full items-center justify-center gap-2 py-3 text-sm font-bold rounded-full transition',
+                o.featured
+                  ? 'bg-primary-500 text-white hover:bg-primary-400'
+                  : 'bg-secondary-500 text-white hover:bg-secondary-600',
+              ]}
+            >
+              {o.size} anfragen <Icon name="bi:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Inklusive-Leiste -->
+    <div class="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3">
+      {included.map((i) => (
+        <span class="inline-flex items-center gap-2 text-sm text-secondary-500">
+          <Icon name="bi:check-circle-fill" class="w-4 h-4 text-primary-500 shrink-0" /> {i}
+        </span>
+      ))}
+    </div>
+
+    <!-- Hinweise -->
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 max-w-3xl mx-auto">
+      <div class="flex items-start gap-3 rounded-xl bg-primary-50 p-5">
+        <Icon name="bi:arrow-repeat" class="w-5 h-5 text-primary-600 mt-0.5 shrink-0" />
+        <p class="text-sm text-secondary-600">{notes.abo}</p>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl bg-primary-50 p-5">
+        <Icon name="bi:stars" class="w-5 h-5 text-primary-600 mt-0.5 shrink-0" />
+        <p class="text-sm text-secondary-600">{notes.firstOrder}</p>
+      </div>
+    </div>
+    <p class="mt-4 text-center text-xs text-secondary-300">{notes.disclaimer}</p>
+  </div>
+</section>

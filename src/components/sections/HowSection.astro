@@ -1,0 +1,41 @@
+---
+import { Icon } from 'astro-icon/components';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import type { StepItem } from '@src/data/homepageData';
+import { steps as defaultSteps } from '@src/data/homepageData';
+
+interface Props {
+  steps?:       StepItem[];
+  badge?:       string;
+  heading?:     string;
+  description?: string;
+}
+
+const {
+  steps       = defaultSteps,
+  badge       = 'So einfach geht es',
+  heading     = 'In vier Schritten zur frischen Wäsche',
+  description = '',
+} = Astro.props;
+---
+
+<section class="py-20 bg-secondary-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge={badge} heading={heading} description={description} align="center" />
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-4">
+      {steps.map((step) => (
+        <div class="relative bg-white rounded-xl p-8 shadow-sm border border-secondary-100 h-full">
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-14 h-14 rounded-lg bg-primary-50 flex items-center justify-center">
+              <Icon name={step.icon} class="w-7 h-7 text-primary-600" />
+            </div>
+            <span class="font-heading font-bold text-4xl text-secondary-100">{step.num}</span>
+          </div>
+          <h3 class="font-heading font-bold text-lg text-secondary-600 mb-2">{step.title}</h3>
+          <p class="text-secondary-400 text-sm leading-relaxed">{step.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

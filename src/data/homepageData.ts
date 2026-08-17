@@ -8,6 +8,7 @@ export interface HeroData {
   ctaPrimary:  { label: string; href: string; icon: string };
   ctaPhone:    { label: string; href: string };
   image:       string;
+  images?:     string[];   // optional: 2x2 Collage statt Einzelbild
   award:       { value: string; label: string };
   stats:       HeroStat[];
 }
@@ -222,16 +223,20 @@ export const cta: CtaData = {
 // ── Contact ────────────────────────────────────────────────────────────────
 export interface ContactInfoItem { icon: string; label: string; value: string; href?: string; }
 
+import { SITE } from '@src/data/site';
+
 export const contactInfo: ContactInfoItem[] = [
-  { icon: 'bi:geo-alt-fill',   label: 'Adresse', value: 'Musterstraße 1, 40210 Düsseldorf' },
-  { icon: 'bi:telephone-fill', label: 'Telefon', value: '+49 211 000 0000', href: 'tel:+492110000000' },
-  { icon: 'bi:envelope-fill',  label: 'E-Mail',  value: 'info@[firmenname].de', href: 'mailto:info@firmenname.de' },
-  { icon: 'bi:clock-fill',     label: 'Zeiten',  value: 'Mo.–Fr. 7–19 Uhr\nNotfalleinsätze nach Absprache' },
+  { icon: 'bi:telephone-fill', label: 'Telefon', value: SITE.PHONE, href: SITE.PHONE_HREF },
+  { icon: 'bi:envelope-fill',  label: 'E-Mail',  value: SITE.EMAIL, href: SITE.EMAIL_HREF },
+  { icon: 'bi:geo-alt-fill',   label: 'Wir kommen zu Ihnen', value: `${SITE.CITY} und Umgebung` },
+  { icon: 'bi:clock-fill',     label: 'Zeiten',  value: SITE.HOURS },
 ];
 
 export const contactServices: string[] = [
-  'Unterhaltsreinigung', 'Büroreinigung', 'Grundreinigung', 'Glas- & Fensterreinigung',
-  'Teppichreinigung', 'Bauendreinigung', 'Eventreinigung', 'Hausmeisterservice',
+  'Beratung zum Entlastungsbetrag',
+  'Wäscheservice mit Pflegegrad',
+  'Frage zum Ablauf',
+  'Sonstiges',
 ];
 
 // ── Footer ─────────────────────────────────────────────────────────────────
@@ -239,25 +244,19 @@ export interface FooterLink { label: string; href: string; }
 export interface SocialLink { icon: string; href: string; }
 
 export const footerLinks: FooterLink[] = [
-  { label: 'Einsatzgebiete', href: '/service-area' },
-  { label: 'Einrichtungen',  href: '/industries'   },
-  { label: 'Leistungen',     href: '/services'     },
-  { label: 'Über uns',       href: '/about'        },
-  { label: 'Blog',           href: '/blogs'        },
-  { label: 'Kontakt',        href: '/contact'      },
+  { label: 'So funktioniert es', href: '/#services' },
+  { label: 'Entlastungsbetrag',  href: '/#pflege'   },
+  { label: 'Kontakt',            href: '/contact'   },
 ];
 
 export const footerServices: FooterLink[] = [
-  { label: 'Büros & Gewerbe',        href: '/industries/bueros'             },
-  { label: 'Wohnimmobilien',         href: '/industries/wohnhaeuser'        },
-  { label: 'Gastronomie & Hotel',    href: '/industries/restaurants'        },
-  { label: 'Einzelhandel',           href: '/industries/einkaufszentren'    },
-  { label: 'Industrie & Logistik',   href: '/industries/lagerhallen'        },
-  { label: 'Events & Sonderobjekte', href: '/industries/veranstaltungsorte' },
+  { label: 'Persönlicher Besuch',   href: '/#services' },
+  { label: 'Wäscheservice',         href: '/#services' },
+  { label: 'Entlastungsbetrag',     href: '/#pflege'   },
+  { label: 'Kostenlose Beratung',   href: '/contact'   },
 ];
 
 export const socialLinks: SocialLink[] = [
-  { icon: 'bi:linkedin',  href: '#' },
-  { icon: 'bi:facebook',  href: '#' },
   { icon: 'bi:instagram', href: '#' },
+  { icon: 'bi:facebook',  href: '#' },
 ];

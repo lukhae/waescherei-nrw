@@ -1,0 +1,29 @@
+---
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+
+const bilder = [
+  { src: '/img/waeschebutler-beutel.png',  alt: 'Frische Wäsche im Wäschebutler-Beutel', span: 'lg:col-span-2 lg:row-span-2' },
+  { src: '/img/waeschebutler-buegel.webp',  alt: 'Saubere Kleidung auf Bügeln',            span: '' },
+  { src: '/img/waeschebutler-waschen.webp', alt: 'Wäsche wird schonend gewaschen',         span: '' },
+  { src: '/img/waeschebutler-oma.jpg',  alt: 'Zufriedene Kundin',                      span: '' },
+  { src: '/img/waeschebutler-theke.webp',   alt: 'Sorgfältige Bearbeitung Ihrer Wäsche',   span: '' },
+];
+---
+
+<section class="py-24 bg-secondary-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection
+      badge="Einblick"
+      heading="Frisch, sauber, sorgfältig"
+      description="So sieht der Wäschebutler-Service aus."
+      align="center"
+    />
+    <div class="grid grid-cols-2 lg:grid-cols-4 auto-rows-[180px] lg:auto-rows-[200px] gap-4">
+      {bilder.map((b) => (
+        <div class={`overflow-hidden rounded-2xl ${b.span}`}>
+          <img src={b.src} alt={b.alt} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

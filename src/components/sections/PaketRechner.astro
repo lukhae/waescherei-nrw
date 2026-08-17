@@ -1,0 +1,99 @@
+---
+import { Icon } from 'astro-icon/components';
+// Interaktiver Rechner: Größe x Häufigkeit -> Monatsbedarf vs. 131 € Entlastungsbetrag.
+// Preise sind Startschätzungen (siehe privatData.offers).
+---
+
+<div
+  class="rounded-3xl border border-secondary-100 bg-secondary-50 p-8"
+  x-data="{
+    size: 'M',
+    freq: 4,
+    budget: 131,
+    prices: { S: 29, M: 44, L: 62, XL: 79 },
+    caps:   { S: 'bis ~6 kg', M: 'bis ~10 kg', L: 'bis ~14 kg', XL: 'bis ~18 kg' },
+    freqs: [{ v: 1, l: '1× im Monat' }, { v: 2, l: 'Alle 2 Wochen' }, { v: 4, l: 'Wöchentlich' }],
+    get monthly() { return this.prices[this.size] * this.freq },
+    get eigenanteil() { return Math.max(0, this.monthly - this.budget) },
+    get prozent() { return Math.min(100, Math.round(this.monthly / this.budget * 100)) }
+  }"
+>
+  <h3 class="font-heading font-bold text-xl text-secondary-600 text-center">Stellen Sie ein, was Sie brauchen</h3>
+  <p class="text-secondary-400 text-sm text-center max-w-2xl mx-auto mt-2 mb-8">
+    Wählen Sie, wie oft wir kommen und wie viel Wäsche pro Besuch. Alles bis 131 € im Monat übernimmt die Pflegekasse, für Sie 0 € Eigenanteil.
+  </p>
+
+  <div class="grid lg:grid-cols-2 gap-8">
+    <!-- Einstellungen -->
+    <div class="space-y-6">
+      <!-- 1. Wie oft (Besuche) -->
+      <div>
+        <div class="text-xs font-semibold tracking-widest uppercase text-primary-600 mb-1">1. Wie oft sollen wir kommen?</div>
+        <div class="text-xs text-secondary-400 mb-3">Anzahl der Besuche</div>
+        <div class="space-y-3">
+          <template x-for="f in freqs" :key="f.v">
+            <button
+              type="button"
+              @click="freq = f.v"
+              :class="freq === f.v ? 'border-primary-500 bg-white ring-2 ring-primary-200' : 'border-secondary-100 bg-white hover:border-primary-300'"
+              class="w-full flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition"
+            >
+              <Icon name="bi:arrow-repeat" class="w-5 h-5 text-primary-600 shrink-0" />
+              <span class="text-sm font-semibold text-secondary-600" x-text="f.l"></span>
+            </button>
+          </template>
+        </div>
+      </div>
+
+      <!-- 2. Wie viel Wäsche pro Besuch (Sackgröße) -->
+      <div>
+        <div class="text-xs font-semibold tracking-widest uppercase text-primary-600 mb-1">2. Wie viel Wäsche pro Besuch?</div>
+        <div class="text-xs text-secondary-400 mb-3">Größe des Wäschesacks</div>
+        <div class="grid grid-cols-2 gap-3">
+          <template x-for="s in ['S','M','L','XL']" :key="s">
+            <button
+              type="button"
+              @click="size = s"
+              :class="size === s ? 'border-primary-500 bg-white ring-2 ring-primary-200' : 'border-secondary-100 bg-white hover:border-primary-300'"
+              class="flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition"
+            >
+              <span class="font-heading font-extrabold text-primary-600 text-xl w-7" x-text="s"></span>
+              <span class="text-sm text-secondary-500" x-text="caps[s]"></span>
+            </button>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ergebnis -->
+    <div class="rounded-2xl bg-secondary-500 text-white p-8 flex flex-col justify-center">
+      <div class="text-sm text-secondary-100">Ihr Bedarf im Monat</div>
+      <div class="flex items-baseline gap-1 mb-4">
+        <span class="text-5xl font-heading font-extrabold" x-text="monthly"></span>
+        <span class="text-2xl">€</span>
+      </div>
+
+      <!-- Budget-Balken -->
+      <div class="h-3 rounded-full bg-secondary-600 overflow-hidden mb-2">
+        <div class="h-full rounded-full bg-primary-400 transition-all duration-300" :style="`width: ${prozent}%`"></div>
+      </div>
+      <div class="text-xs text-secondary-100 mb-6">Entlastungsbetrag der Pflegekasse: 131 € / Monat</div>
+
+      <!-- 0 € Fall -->
+      <div x-show="eigenanteil === 0" class="rounded-xl bg-primary-500/20 border border-primary-400/40 p-4">
+        <div class="flex items-center gap-2 font-heading font-bold">
+          <Icon name="bi:check-circle-fill" class="w-5 h-5 text-primary-400" /> Komplett von der Pflegekasse übernommen
+        </div>
+        <div class="text-sm text-secondary-100 mt-1">Ihr Eigenanteil: <span class="font-bold text-white">0 €</span></div>
+      </div>
+
+      <!-- Eigenanteil-Fall -->
+      <div x-show="eigenanteil > 0" x-cloak class="rounded-xl bg-white/10 border border-white/20 p-4">
+        <div class="text-sm text-secondary-100">Die Pflegekasse übernimmt 131 €.</div>
+        <div class="text-sm mt-1">Ihr Eigenanteil: <span class="font-bold text-white"><span x-text="eigenanteil"></span> € / Monat</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="mt-6 text-center text-xs text-secondary-300">Preise sind Startschätzungen. Den genauen Rahmen stimmen wir persönlich mit Ihnen ab.</p>
+</div>

@@ -5,53 +5,22 @@ interface Props {
 }
 
 const { variant = 'light' } = Astro.props;
-const broomColor  = variant === 'light' ? '#ffffff' : '#1e3a5f';
-const textColor   = variant === 'light' ? '#ffffff' : '#1e3a5f';
-const accentColor = variant === 'light' ? '#a3e635' : '#65a30d';
-
-// Cursor sparkle colours
-const s1 = '#4DB8D4';
-const s2 = '#9ADDEF';
-const s3 = '#C8EEF7';
-
-// 8-pointed star path helper
-function star(cx: number, cy: number, R: number, r: number): string {
-  const pts: string[] = [];
-  for (let i = 0; i < 8; i++) {
-    const a = (Math.PI / 4) * i - Math.PI / 2;
-    const radius = i % 2 === 0 ? R : r;
-    pts.push(`${(cx + radius * Math.cos(a)).toFixed(2)},${(cy + radius * Math.sin(a)).toFixed(2)}`);
-  }
-  return 'M' + pts.join('L') + 'Z';
-}
+const textColor  = variant === 'light' ? '#ffffff' : '#1E2630';
+const subColor   = '#1E70DE';           // Royalblau
+const knotColor  = variant === 'light' ? '#1E2630' : '#ffffff';
 ---
 
 <div class="flex items-center gap-3">
-  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-    <!-- Broom handle -->
-    <line x1="36" y1="4" x2="18" y2="26" stroke={broomColor} stroke-width="3" stroke-linecap="round"/>
-
-    <!-- Binding band -->
-    <rect x="12" y="24" width="14" height="4" rx="2" fill={accentColor}/>
-
-    <!-- Bristle fan (solid shape) -->
-    <path d={`M12,28 Q7,35 4,44 L36,42 Q33,35 26,28 Z`} fill={broomColor} opacity="0.9"/>
-
-    <!-- Bristle lines for texture -->
-    <line x1="10" y1="29" x2="5"  y2="44" stroke={accentColor} stroke-width="1"   opacity="0.4" stroke-linecap="round"/>
-    <line x1="16" y1="28" x2="12" y2="44" stroke={accentColor} stroke-width="1"   opacity="0.4" stroke-linecap="round"/>
-    <line x1="22" y1="28" x2="21" y2="44" stroke={accentColor} stroke-width="1"   opacity="0.4" stroke-linecap="round"/>
-    <line x1="27" y1="28" x2="29" y2="44" stroke={accentColor} stroke-width="1"   opacity="0.4" stroke-linecap="round"/>
-
-    <!-- Sparkles matching cursor stars -->
-    <path d={star(37, 10, 4, 1.5)} fill={s1}/>
-    <path d={star(28,  5, 2.5, 1)} fill={s2}/>
-    <path d={star(40, 20, 2,   0.8)} fill={s3}/>
+  <!-- Butler-Fliege -->
+  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="22" cy="22" r="21" fill={subColor} opacity="0.14" />
+    <path d="M21 22 L9 15 Q7 14 7 16.5 V27.5 Q7 30 9 29 L21 22 Z" fill={subColor} />
+    <path d="M23 22 L35 15 Q37 14 37 16.5 V27.5 Q37 30 35 29 L23 22 Z" fill={subColor} />
+    <rect x="19.5" y="18.5" width="5" height="7" rx="1.5" fill={knotColor} />
   </svg>
 
   <div class="flex flex-col leading-none gap-0.5">
-    <span style={`color: ${textColor}; font-family: var(--font-body); font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em;`}>Martha</span>
-    <span style={`color: ${accentColor}; font-family: var(--font-body); font-weight: 400; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;`}>Reinigung</span>
+    <span style={`color: ${textColor}; font-family: var(--font-body); font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em;`}>Wäschebutler</span>
+    <span style={`color: ${subColor}; font-family: var(--font-body); font-weight: 500; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;`}>Düsseldorf</span>
   </div>
 </div>

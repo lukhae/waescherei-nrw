@@ -1,0 +1,63 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+
+const services = [
+  {
+    image: '/img/waeschebutler-senior-paar.jpg',
+    icon:  'bi:chat-heart-fill',
+    tag:   'Teil 1',
+    title: 'Der persönliche Besuch',
+    desc:  'Wir kommen zu Ihrem Angehörigen nach Hause. Immer dasselbe vertraute Gesicht, das sich Zeit nimmt und nach dem Rechten sieht.',
+    points:['Festes, vertrautes Gesicht', 'Ein Moment Zeit und Gesellschaft', 'Entlastung für die ganze Familie'],
+    cta:   'Mehr erfahren',
+    href:  '#pflege',
+  },
+  {
+    image: '/img/waeschebutler-waschen2.jpg',
+    icon:  'bi:droplet',
+    tag:   'Teil 2',
+    title: 'Die Wäsche',
+    desc:  'Wir nehmen die Wäsche mit, waschen und trocknen sie schonend, falten sie und räumen sie wieder ein. Sie müssen sich um nichts kümmern.',
+    points:['Gewaschen nach Pflegehinweis', 'Sauber gefaltet und eingeräumt', 'Frisch zurück in 24 bis 48 Stunden'],
+    cta:   'Mehr erfahren',
+    href:  '#pflege',
+  },
+];
+---
+
+<section id="services" class="py-24 bg-secondary-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <HeadingSection
+      badge="Was Sie bekommen"
+      heading="Ein Besuch, zwei Dinge erledigt"
+      description="Der Besuch und die Wäsche gehören bei uns zusammen. Beides zusammen ist Ihr Angebot über den Entlastungsbetrag."
+      align="center"
+    />
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {services.map((s) => (
+        <div class="group flex flex-col bg-white rounded-2xl border border-secondary-100 shadow-sm p-8 transition hover:-translate-y-1 hover:shadow-xl hover:border-primary-300">
+          {s.image && <img src={s.image} alt={s.title} class="w-full h-48 object-cover rounded-xl mb-6" />}
+          <div class="w-14 h-14 rounded-xl bg-primary-50 flex items-center justify-center mb-6">
+            <Icon name={s.icon} class="w-7 h-7 text-primary-600" />
+          </div>
+          <span class="text-xs font-semibold tracking-widest uppercase text-primary-600 mb-2">{s.tag}</span>
+          <h3 class="font-heading font-bold text-2xl text-secondary-600 mb-3">{s.title}</h3>
+          <p class="text-secondary-400 leading-relaxed mb-6">{s.desc}</p>
+          <ul class="space-y-2 mb-8">
+            {s.points.map((pt) => (
+              <li class="flex items-center gap-2 text-sm text-secondary-500">
+                <Icon name="bi:check-circle-fill" class="w-4 h-4 text-primary-500 shrink-0" /> {pt}
+              </li>
+            ))}
+          </ul>
+          <a href={url(s.href)} class="mt-auto inline-flex items-center gap-2 font-semibold text-primary-600 group-hover:gap-3 transition-all">
+            {s.cta} <Icon name="bi:arrow-right" class="w-4 h-4" />
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

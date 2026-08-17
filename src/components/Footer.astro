@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components';
 import Logo from './ui/Logo.astro';
 import type { FooterLink, SocialLink } from '@src/data/homepageData';
 import { footerLinks, footerServices, socialLinks } from '@src/data/homepageData';
+import { SITE } from '@src/data/site';
 
 interface Props {
   description?: string;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const {
-  description = 'Professionelle Reinigungsdienstleistungen für kirchliche Einrichtungen in Köln, Düsseldorf und dem Ruhrgebiet.',
+  description = 'Ihr Wäscheservice in Düsseldorf. Wir holen ab, waschen und bringen frisch zurück. Für Privatkunden und für Menschen mit Pflegegrad über den Entlastungsbetrag.',
   links    = footerLinks,
   services = footerServices,
   socials  = socialLinks,
@@ -61,21 +62,21 @@ const {
       <div class="col-span-2 lg:col-span-1">
         <h4 class="font-heading font-bold text-sm tracking-widest uppercase text-white mb-5">Kontakt</h4>
         <ul class="space-y-4">
-          <li class="flex items-start gap-3 text-sm font-light text-primary-200">
-            <Icon name="bi:geo-alt" class="w-4 h-4 text-primary-400 mt-0.5 shrink-0" />
-            <span>Musterstraße 1, 40210 Düsseldorf</span>
-          </li>
           <li class="flex items-center gap-3 text-sm font-light text-primary-200">
             <Icon name="bi:telephone" class="w-4 h-4 text-primary-400 shrink-0" />
-            <a href="tel:+492110000000" class="hover:text-primary-400 transition-colors">+49 211 000 0000</a>
+            <a href={SITE.PHONE_HREF} class="hover:text-primary-400 transition-colors">{SITE.PHONE}</a>
           </li>
           <li class="flex items-center gap-3 text-sm font-light text-primary-200">
             <Icon name="bi:envelope" class="w-4 h-4 text-primary-400 shrink-0" />
-            <a href="mailto:info@firmenname.de" class="hover:text-primary-400 transition-colors">info@[firmenname].de</a>
+            <a href={SITE.EMAIL_HREF} class="hover:text-primary-400 transition-colors">{SITE.EMAIL}</a>
+          </li>
+          <li class="flex items-start gap-3 text-sm font-light text-primary-200">
+            <Icon name="bi:geo-alt" class="w-4 h-4 text-primary-400 mt-0.5 shrink-0" />
+            <span>{SITE.CITY} und Umgebung</span>
           </li>
           <li class="flex items-start gap-3 text-sm font-light text-primary-200">
             <Icon name="bi:clock" class="w-4 h-4 text-primary-400 shrink-0 mt-0.5" />
-            <span>Mo.–Fr. 7–19 Uhr<br /><span class="text-primary-300 text-xs">Notfalleinsätze nach Absprache</span></span>
+            <span>{SITE.HOURS}</span>
           </li>
         </ul>
       </div>
@@ -87,7 +88,7 @@ const {
         <a href={url('/privacy')} class="px-3 hover:text-gray-100">Datenschutz</a>
         <a href={url('/terms')}   class="px-3 hover:text-gray-100">AGB</a>
       </div>
-      <p class="text-sm font-light text-primary-200">&copy; 2026 [Firmenname]. Alle Rechte vorbehalten.</p>
+      <p class="text-sm font-light text-primary-200">&copy; 2026 {SITE.NAME}. Alle Rechte vorbehalten.</p>
     </div>
   </div>
 </footer>

@@ -1,0 +1,35 @@
+---
+import { Icon } from 'astro-icon/components';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+
+// TODO(Lukas): Texte sind Platzhalter. Durch echte Kundenstimmen ersetzen, sobald vorhanden.
+const stimmen = [
+  { text: 'Feste Ansprechperson, immer pünktlich, und die Wäsche riecht endlich wieder richtig frisch. Ich muss mich um nichts mehr kümmern.', name: 'Günter S.', role: 'Kunde mit Pflegegrad, Düsseldorf', avatar: '/img/waeschebutler-stimme-mann1.jpg' },
+  { text: 'Dieselbe nette Dame kommt jede Woche, nimmt die Wäsche mit und bringt sie frisch gefaltet zurück. Und über die Pflegekasse zahle ich nichts.', name: 'Helga M.', role: 'Kundin mit Pflegegrad, Düsseldorf', avatar: '/img/waeschebutler-senior2.jpg' },
+  { text: 'Für meine Frau ist der Besuch jede Woche ein kleiner Höhepunkt. Über den Entlastungsbetrag kostet es uns nichts, das ist eine echte Entlastung.', name: 'Klaus B.', role: 'Angehöriger, Düsseldorf', avatar: '/img/waeschebutler-stimme-mann2.jpg' },
+];
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge="Stimmen" heading="Was Kundinnen und Kunden sagen" align="center" />
+    <div class="grid md:grid-cols-3 gap-6">
+      {stimmen.map((s) => (
+        <div class="flex flex-col bg-secondary-50 rounded-2xl p-8 border border-secondary-100">
+          <Icon name="bi:quote" class="w-8 h-8 text-primary-300 mb-4" />
+          <p class="text-secondary-600 leading-relaxed mb-6">{s.text}</p>
+          <div class="mt-auto flex items-center gap-1 mb-4">
+            {[1,2,3,4,5].map(() => <Icon name="bi:star-fill" class="w-4 h-4 text-primary-500" />)}
+          </div>
+          <div class="flex items-center gap-3">
+            <img src={s.avatar} alt={s.name} class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <div class="font-heading font-bold text-secondary-600">{s.name}</div>
+              <div class="text-sm text-secondary-400">{s.role}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

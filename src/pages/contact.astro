@@ -1,21 +1,21 @@
 ---
-import MainLayout   from '@layouts/MainLayout.astro';
-import HeadingPage  from '@src/components/blocks/HeadingPage.astro';
-import ContactPage  from '@src/components/contact/ContactPage.astro';
+import MainLayout    from '@layouts/MainLayout.astro';
+import HeadingPage    from '@src/components/blocks/HeadingPage.astro';
+import ContactSection from '@src/components/sections/ContactSection.astro';
 
 const headingData = {
   badge:       'Kontakt aufnehmen',
   icon:        'bi:envelope',
   heading:     'Sprechen Sie uns an',
-  description: 'Fragen zu unseren Leistungen oder ein Angebot anfragen? Wir melden uns innerhalb von 24 Stunden, meistens deutlich schneller.',
+  description: 'Ob privat oder mit Pflegegrad: Schreiben Sie uns kurz, worum es geht. Wir melden uns zeitnah bei Ihnen, meistens noch am selben Tag.',
   breadcrumb:  [{ label: 'Startseite', href: '/' }, { label: 'Kontakt' }],
 };
 ---
 
 <MainLayout
-  title="Kontakt — Reinigung im Raum der Kirchen"
-  description="Sprechen Sie uns an. Angebot für Reinigungsdienstleistungen kirchlicher Einrichtungen in NRW anfragen."
+  title="Kontakt — Wäschebutler Düsseldorf"
+  description="Fragen Sie Ihren Wäscheservice in Düsseldorf an. Privat oder über den Entlastungsbetrag mit Pflegegrad. Wir melden uns zeitnah."
 >
   <HeadingPage data={headingData} />
-  <ContactPage />
+  <ContactSection />
 </MainLayout>

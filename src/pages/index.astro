@@ -1,44 +1,67 @@
 ---
-import { getCollection } from 'astro:content';
-import MainLayout         from '@layouts/MainLayout.astro';
-import HeroSection        from '@src/components/sections/HeroSection.astro';
-import ServiceSection     from '@src/components/sections/ServiceSection.astro';
-import IndustriesSection  from '@src/components/sections/IndustriesSection.astro';
-import WhySection         from '@src/components/sections/WhySection.astro';
-import HowSection         from '@src/components/sections/HowSection.astro';
-import ServiceArea        from '@src/components/sections/ServiceArea.astro';
-import GallerySection     from '@src/components/sections/GallerySection.astro';
-import ReviewsSection     from '@src/components/sections/ReviewsSection.astro';
-import FaqSection         from '@src/components/sections/FaqSection.astro';
-import BlogSection        from '@src/components/sections/BlogSection.astro';
-import CtaSection         from '@src/components/sections/CtaSection.astro';
-import ContactSection     from '@src/components/sections/ContactSection.astro';
-import { services, industries } from '@src/data/homepageData';
+import MainLayout      from '@layouts/MainLayout.astro';
+import HeroSection      from '@src/components/sections/HeroSection.astro';
+import ServicesSection  from '@src/components/sections/ServicesSection.astro';
+import RouteFeature     from '@src/components/sections/RouteFeature.astro';
+import PaketSection     from '@src/components/sections/PaketSection.astro';
+import WhySection       from '@src/components/sections/WhySection.astro';
+import GalerieSection   from '@src/components/sections/GalerieSection.astro';
+import StimmenSection   from '@src/components/sections/StimmenSection.astro';
+import FaqSection       from '@src/components/sections/FaqSection.astro';
+import CtaSection       from '@src/components/sections/CtaSection.astro';
+import ContactSection   from '@src/components/sections/ContactSection.astro';
 
-const allBlogs = await getCollection('blog');
-const blogs    = allBlogs
-  .sort((a, b) => {
-    if (a.data.featured && !b.data.featured) return -1;
-    if (!a.data.featured && b.data.featured) return 1;
-    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
-  })
-  .slice(0, 4);
+// Privat-Bausteine vorerst ausgeblendet (Fokus: Entlastungsbetrag / Pflege)
+// import HowSection      from '@src/components/sections/HowSection.astro';
+// import AngeboteSection from '@src/components/sections/AngeboteSection.astro';
+// import FrequenzSection from '@src/components/sections/FrequenzSection.astro';
+
+import { hero, steps, whyItems, faqs, cta } from '@src/data/pflegeData';
 ---
 
 <MainLayout
-  title="Professionelle Reinigung in NRW — Gewerbe, Wohnimmobilien & mehr"
-  description="Zuverlässige Reinigungsdienstleistungen für Büros, Wohnimmobilien, Gastronomie, Einzelhandel und Industrie in Köln, Düsseldorf und dem Ruhrgebiet."
+  title="Wäscheservice über den Entlastungsbetrag – Pflegegrad | Wäschebutler Düsseldorf"
+  description="Persönlicher Wäscheservice für Menschen mit Pflegegrad in Düsseldorf. Über den Entlastungsbetrag nach § 45b, oft ohne Eigenanteil. Ein festes, vertrautes Gesicht."
 >
-  <HeroSection />
-  <ServiceSection services={services} />
-  <IndustriesSection industries={industries} />
-  <WhySection />
-  <HowSection />
-  <ServiceArea />
-  <GallerySection />
-  <ReviewsSection />
-  <FaqSection />
-  <BlogSection posts={blogs} />
-  <CtaSection />
+  <HeroSection data={hero} />
+
+  <ServicesSection />
+
+  <RouteFeature
+    bg="bg-white"
+    image="/img/waeschebutler-senior-buegel.jpg"
+    imageRight="/img/waeschebutler-lieferung.jpg"
+    imageAlt="Ältere Dame mit frischer Wäsche"
+    badge="Ihr Besuch"
+    heading="So läuft Ihr Wäsche-Besuch"
+    description="Wir kommen persönlich vorbei, nehmen die Wäsche mit und bringen sie versorgt zurück. Immer dasselbe vertraute Gesicht."
+    steps={[
+      { icon: 'bi:calendar2-check',   title: 'Fester Tag',       desc: 'Wir kommen an einem festen Tag, den Sie kennen. Kein Warten, keine Überraschungen.' },
+      { icon: 'bi:chat-heart-fill',   title: 'Persönlich da',    desc: 'Ein kurzer Moment Zeit, dann nehmen wir die Wäsche mit.' },
+      { icon: 'bi:truck',             title: 'Versorgt zurück',  desc: 'Sauber, gefaltet und wieder eingeräumt, in der Regel in 24 bis 48 Stunden.' },
+    ]}
+    floatA={{ icon: 'bi:calendar2-check', label: 'Ihr fester Tag', value: 'jede Woche' }}
+    floatB={{ icon: 'bi:heart',           label: 'Persönlich',     value: 'vor Ort' }}
+  />
+
+  <PaketSection />
+
+  <WhySection
+    items={whyItems}
+    badge="Warum Wäschebutler"
+    heading="Mehr als ein Wäscheservice"
+    description="Für Menschen mit Pflegegrad ist Wäsche oft nur der Anlass. Was bleibt, ist ein vertrautes Gesicht, das regelmäßig vorbeikommt und sich kümmert."
+    image="/img/waeschebutler-senior-paar.jpg"
+    accolade={{ value: '131 €', label: 'über die Pflegekasse' }}
+  />
+
+  <GalerieSection />
+
+  <StimmenSection />
+
+  <FaqSection faqs={faqs} badge="Entlastungsbetrag" heading="Häufige Fragen zur Pflegekasse" />
+
+  <CtaSection data={cta} />
+
   <ContactSection />
 </MainLayout>

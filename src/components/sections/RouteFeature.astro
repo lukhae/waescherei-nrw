@@ -1,0 +1,96 @@
+---
+import { Icon } from 'astro-icon/components';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+
+interface Step { icon: string; title: string; desc: string; }
+interface Float { icon: string; label: string; value: string; }
+
+interface Props {
+  image?:       string;
+  imageRight?:  string;   // optional: zweites Bild -> Split-Ansicht
+  imageAlt?:    string;
+  badge?:       string;
+  heading?:     string;
+  description?: string;
+  steps?:       Step[];
+  floatA?:      Float;
+  floatB?:      Float;
+  flip?:        boolean;
+  bg?:          string;
+}
+
+const {
+  image       = '/img/waeschebutler-abholung.webp',
+  imageRight  = '',
+  imageAlt    = 'Wäschebutler holt die Wäsche ab',
+  badge       = 'Abholung & Lieferung',
+  heading     = 'So kommt Ihre Wäsche zu uns und zurück',
+  description = 'Feste Abholtage in Ihrem Viertel, damit alles zuverlässig und planbar läuft. Sie stellen den Sack bereit, wir kümmern uns um den Rest.',
+  steps       = [
+    { icon: 'bi:calendar2-check', title: 'Fester Abholtag',   desc: 'Wir holen an festen Tagen in Ihrem Stadtteil ab, kein Warten auf ein Zeitfenster.' },
+    { icon: 'bi:box-seam',        title: 'Sack bereitstellen', desc: 'Sie stellen Ihren Wäschebutler-Sack raus, wir nehmen ihn mit.' },
+    { icon: 'bi:truck',           title: 'Frisch zurück',      desc: 'In der Regel in 24 bis 48 Stunden sauber und gefaltet zurück an Ihrer Tür.' },
+  ],
+  floatA      = { icon: 'bi:calendar2-check', label: 'Ihr Abholtag', value: 'Di & Fr' },
+  floatB      = { icon: 'bi:clock-history',   label: 'Zurück in',     value: '24–48 Std' },
+  flip        = false,
+  bg          = 'bg-white',
+} = Astro.props;
+---
+
+<section class={`py-24 ${bg}`}>
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+    <!-- Bild mit schwebenden Karten -->
+    <div class:list={['relative', flip ? 'lg:order-2' : '']}>
+      {imageRight
+        ? (
+          <div class="grid grid-cols-2 gap-2 rounded-3xl overflow-hidden shadow-xl">
+            <img src={image}      alt={imageAlt} class="w-full h-[420px] object-cover" />
+            <img src={imageRight} alt="Wäschebutler holt die Wäsche ab" class="w-full h-[420px] object-cover" />
+          </div>
+        )
+        : <img src={image} alt={imageAlt} class="w-full h-[420px] object-cover rounded-3xl shadow-xl" />
+      }
+
+      <div class="absolute -top-5 -left-5 bg-white rounded-2xl shadow-xl px-5 py-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
+          <Icon name={floatA.icon} class="w-5 h-5 text-primary-600" />
+        </div>
+        <div>
+          <div class="text-xs text-secondary-300 font-semibold uppercase tracking-wide">{floatA.label}</div>
+          <div class="font-heading font-bold text-secondary-600 leading-tight">{floatA.value}</div>
+        </div>
+      </div>
+
+      <div class="absolute -bottom-5 -right-5 bg-white rounded-2xl shadow-xl px-5 py-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
+          <Icon name={floatB.icon} class="w-5 h-5 text-primary-600" />
+        </div>
+        <div>
+          <div class="text-xs text-secondary-300 font-semibold uppercase tracking-wide">{floatB.label}</div>
+          <div class="font-heading font-bold text-secondary-600 leading-tight">{floatB.value}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text + Schritte -->
+    <div>
+      <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-primary-700 text-xs font-semibold tracking-widest uppercase mb-3">{badge}</span>
+      <h2 class="font-heading font-bold text-3xl lg:text-4xl text-secondary-600 leading-tight mb-4">{heading}</h2>
+      <p class="text-secondary-400 text-lg leading-relaxed mb-8 max-w-lg">{description}</p>
+      <div class="space-y-5">
+        {steps.map((s) => (
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl bg-primary-50 flex items-center justify-center shrink-0">
+              <Icon name={s.icon} class="w-5 h-5 text-primary-600" />
+            </div>
+            <div>
+              <h3 class="font-heading font-bold text-secondary-600">{s.title}</h3>
+              <p class="text-secondary-400 text-sm leading-relaxed">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

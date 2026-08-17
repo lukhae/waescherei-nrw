@@ -1,0 +1,35 @@
+---
+import MainLayout    from '@layouts/MainLayout.astro';
+import HeroSection    from '@src/components/sections/HeroSection.astro';
+import HowSection     from '@src/components/sections/HowSection.astro';
+import PaketSection   from '@src/components/sections/PaketSection.astro';
+import WhySection     from '@src/components/sections/WhySection.astro';
+import FaqSection     from '@src/components/sections/FaqSection.astro';
+import CtaSection     from '@src/components/sections/CtaSection.astro';
+import ContactSection from '@src/components/sections/ContactSection.astro';
+import { hero, steps, whyItems, faqs, cta } from '@src/data/pflegeData';
+---
+
+<MainLayout
+  title="Wäscheservice über den Entlastungsbetrag – Pflegegrad | Wäschebutler Düsseldorf"
+  description="Persönlicher Wäscheservice für Menschen mit Pflegegrad in Düsseldorf. Finanziert über den Entlastungsbetrag nach § 45b, oft ohne Eigenanteil. Ein festes, vertrautes Gesicht."
+>
+  <HeroSection data={hero} />
+  <HowSection
+    steps={steps}
+    badge="So läuft es ab"
+    heading="Persönlich, unkompliziert, über die Pflegekasse"
+  />
+  <PaketSection />
+  <WhySection
+    items={whyItems}
+    badge="Warum Wäschebutler"
+    heading="Mehr als ein Wäscheservice"
+    description="Für Menschen mit Pflegegrad ist Wäsche oft nur der Anlass. Was bleibt, ist ein vertrautes Gesicht, das regelmäßig vorbeikommt und sich kümmert."
+    image=""
+    accolade={{ value: '131 €', label: 'pro Monat über die Kasse' }}
+  />
+  <FaqSection faqs={faqs} badge="Entlastungsbetrag" heading="Häufige Fragen zur Pflegekasse" />
+  <CtaSection data={cta} />
+  <ContactSection />
+</MainLayout>
