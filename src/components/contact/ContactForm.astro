@@ -1,0 +1,141 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import FormInput    from '@src/components/ui/FormInput.astro';
+import FormSelect   from '@src/components/ui/FormSelect.astro';
+import FormTextarea from '@src/components/ui/FormTextarea.astro';
+import FormRadio    from '@src/components/ui/FormRadio.astro';
+
+const serviceOptions = [
+  'Unterhaltsreinigung',
+  'Hygienereinigung & Desinfektion',
+  'Grundreinigung & Sonderreinigung',
+  'Sakralreinigung',
+  'Küchenreinigung',
+  'Glasreinigung & Außenreinigung',
+  'Sonstiges / Noch unklar',
+];
+
+const contactMethodOptions = [
+  { value: 'email', label: 'E-Mail'    },
+  { value: 'phone', label: 'Anruf'     },
+  { value: 'text',  label: 'WhatsApp'  },
+];
+---
+
+<div class="lg:col-span-2" x-data="{ submitted: false }">
+
+  <!-- Form state -->
+  <div x-show="!submitted">
+    <div class="mb-8">
+      <h2 class="font-heading font-bold text-3xl lg:text-4xl text-secondary-600 leading-tight mb-3">Schreiben Sie uns</h2>
+      <p class="text-gray-600 font-light text-base leading-relaxed">
+        Füllen Sie das Formular aus und wir melden uns innerhalb von 24 Stunden mit einem Angebot. Dringend? Rufen Sie uns direkt an.
+      </p>
+    </div>
+
+    <form class="space-y-6" @submit.prevent="submitted = true">
+
+      <!-- Name & Email -->
+      <div class="grid sm:grid-cols-2 gap-6">
+        <FormInput
+          label="Vollständiger Name"
+          name="name"
+          type="text"
+          required
+          placeholder="Max Mustermann"
+        />
+        <FormInput
+          label="E-Mail-Adresse"
+          name="email"
+          type="email"
+          required
+          placeholder="max@einrichtung.de"
+        />
+      </div>
+
+      <!-- Phone & Company -->
+      <div class="grid sm:grid-cols-2 gap-6">
+        <FormInput
+          label="Telefonnummer"
+          name="phone"
+          type="tel"
+          required
+          placeholder="+49 211 000 0000"
+        />
+        <FormInput
+          label="Einrichtung / Träger"
+          name="company"
+          type="text"
+          placeholder="z.B. Caritas Pflegezentrum Köln"
+        />
+      </div>
+
+      <!-- Service & Location -->
+      <div class="grid sm:grid-cols-2 gap-6">
+        <FormSelect
+          label="Gewünschte Leistung"
+          name="service"
+          required
+          options={serviceOptions}
+        />
+        <FormInput
+          label="Standort / Stadt"
+          name="location"
+          type="text"
+          placeholder="z.B. Köln, Düsseldorf, Essen"
+        />
+      </div>
+
+      <!-- Facility size -->
+      <FormInput
+        label="Fläche (ca. m²)"
+        name="size"
+        type="text"
+        placeholder="z.B. 500"
+      />
+
+      <!-- Message -->
+      <FormTextarea
+        label="Nachricht / Weitere Details"
+        name="message"
+        required
+        rows={6}
+        placeholder="Beschreiben Sie Ihre Einrichtung, gewünschten Reinigungsrhythmus und besondere Anforderungen..."
+      />
+
+      <FormRadio
+        label="Bevorzugte Kontaktart"
+        name="contact_method"
+        options={contactMethodOptions}
+        checked="email"
+      />
+
+      <!-- Submit -->
+      <div class="pt-2">
+        <button type="submit" class="w-full flex items-center justify-center gap-2 px-8 py-4 bg-primary-300 hover:bg-primary-200 text-secondary-600 font-bold text-sm transition rounded-lg">
+          <Icon name="bi:send" class="w-4 h-4" /> Nachricht senden
+        </button>
+        <p class="text-xs text-gray-500 mt-3">
+          Mit dem Absenden stimmen Sie unserer
+          <a href={url('/privacy')} class="text-primary-600 hover:underline">Datenschutzerklärung</a> zu.
+        </p>
+      </div>
+    </form>
+  </div>
+
+  <!-- Success state -->
+  <div x-show="submitted" x-cloak class="text-center py-12">
+    <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
+      <Icon name="bi:check-circle" class="w-10 h-10 text-green-600" />
+    </div>
+    <h3 class="font-heading font-bold text-2xl text-secondary-600 mb-3">Nachricht erfolgreich gesendet!</h3>
+    <p class="text-gray-600 font-light text-base leading-relaxed max-w-md mx-auto mb-6">
+      Vielen Dank für Ihre Anfrage. Wir melden uns innerhalb von 24 Stunden mit einem Angebot bei Ihnen.
+    </p>
+    <button @click="submitted = false"
+      class="inline-flex items-center gap-2 px-6 py-3 border border-secondary-500 text-secondary-600 font-semibold text-sm hover:bg-secondary-500 hover:text-white transition rounded-lg">
+      <Icon name="bi:arrow-left" class="w-4 h-4" /> Weitere Nachricht senden
+    </button>
+  </div>
+</div>

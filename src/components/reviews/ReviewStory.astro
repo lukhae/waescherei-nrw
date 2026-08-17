@@ -1,0 +1,31 @@
+---
+import { url } from '@src/utils/path';
+
+interface Props {
+  badge:      string;
+  heading:    string;
+  intro:      string;
+  quote:      string;
+  clientName: string;
+  clientRole: string;
+  avatar:     string;
+}
+
+const { badge, heading, intro, quote, clientName, clientRole, avatar } = Astro.props;
+---
+
+<div class="order-1 lg:order-2">
+  <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">{badge}</span>
+  <h2 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight mb-5">{heading}</h2>
+  <p class="text-gray-600 font-light text-lg leading-relaxed mb-5">{intro}</p>
+  <blockquote class="border-l-4 border-primary-400 pl-5 my-6">
+    <p class="text-secondary-600 font-light text-base italic leading-relaxed">"{quote}"</p>
+  </blockquote>
+  <div class="flex items-center gap-3">
+    <img src={url(avatar)} alt={clientName} class="w-12 h-12 object-cover rounded-full border-2 border-primary-200" />
+    <div>
+      <div class="font-semibold text-secondary-600">{clientName}</div>
+      <div class="text-gray-500 text-sm font-light">{clientRole}</div>
+    </div>
+  </div>
+</div>

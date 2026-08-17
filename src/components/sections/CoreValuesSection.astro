@@ -1,0 +1,18 @@
+---
+import CoreCard from '@src/components/blocks/CoreCard.astro';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import type { CoreValuesData } from '@src/data/aboutData';
+import { coreValues as defaultData } from '@src/data/aboutData';
+
+interface Props { data?: CoreValuesData; }
+const { data = defaultData } = Astro.props;
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge={data.badge} heading={data.heading} description={data.description} align="between" />
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {data.values.map((v) => <CoreCard {...v} />)}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface WhyItem { icon: string; text: string; }
+
+interface Props {
+  heading?: string;
+  items?:   WhyItem[];
+}
+
+const {
+  heading = 'Warum wir',
+  items = [
+    { icon: 'bi:shield-check',    text: 'Vollversichert' },
+    { icon: 'bi:people-fill',     text: 'Geprüftes, geschultes Personal' },
+    { icon: 'bi:leaf-fill',       text: 'Umweltgerechte Reinigungsmittel' },
+    { icon: 'bi:star-fill',       text: '4.9★ bei 150+ Bewertungen' },
+    { icon: 'bi:calendar-check',  text: '10+ Jahre im kirchlichen Bereich' },
+  ],
+} = Astro.props;
+---
+
+<div class="bg-gray-100 p-6 rounded-lg">
+  <h3 class="font-heading font-bold text-base text-secondary-600 mb-4 pb-4 border-b border-gray-200 flex items-center gap-2">
+    <Icon name="bi:award" class="w-4 h-4 text-primary-600" /> {heading}
+  </h3>
+  <ul class="space-y-3 text-sm text-gray-700">
+    {items.map((point) => (
+      <li class="flex items-center gap-2.5">
+        <Icon name={point.icon} class="w-4 h-4 text-primary-600 shrink-0" />
+        <span set:html={point.text} />
+      </li>
+    ))}
+  </ul>
+</div>

@@ -1,0 +1,46 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Platform } from '@src/data/reviewsData';
+import { platforms as defaultPlatforms } from '@src/data/reviewsData';
+
+interface Props {
+  platforms?: Platform[];
+  badge?:     string;
+  heading?:   string;
+  desc?:      string;
+}
+
+const {
+  platforms = defaultPlatforms,
+  badge     = 'Trusted Everywhere',
+  heading   = 'Our Ratings Across Platforms',
+  desc      = 'Consistent excellence across every review platform our clients use.',
+} = Astro.props;
+
+const plJson = JSON.stringify(platforms);
+---
+
+<section class="py-20 bg-secondary-500 bg-waves relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="text-center mb-12">
+      <span class="inline-block py-1 px-4 rounded-full bg-primary-600 text-primary-100 text-xs font-semibold tracking-widest uppercase mb-3">{badge}</span>
+      <h2 class="font-heading font-bold text-4xl lg:text-5xl text-white leading-tight max-w-md mx-auto">{heading}</h2>
+      <p class="text-primary-100 font-light text-lg mt-4 max-w-xl mx-auto">{desc}</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" x-data={`{ platforms: ${plJson} }`}>
+      {platforms.map(platform => (
+        <div class="bg-secondary-400/40 border border-secondary-400 hover:border-primary-400 transition-colors p-6 rounded-lg text-center">
+          <div class="w-14 h-14 bg-primary-400/20 flex items-center justify-center mx-auto mb-4 rounded-lg">
+            <Icon name={platform.icon} class="text-primary-300 text-2xl" />
+          </div>
+          <div class="text-white font-semibold text-sm mb-2">{platform.name}</div>
+          <div class="font-heading font-bold text-3xl text-primary-400 mb-1">
+            <span>{platform.rating}</span>
+            {platform.rating !== 'A+' && <span class="text-lg text-primary-300">&#9733;</span>}
+          </div>
+          <div class="text-primary-200 text-xs font-light">{platform.count}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

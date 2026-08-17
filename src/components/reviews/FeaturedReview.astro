@@ -1,0 +1,26 @@
+---
+import ReviewVideo from './ReviewVideo.astro';
+import ReviewStory from './ReviewStory.astro';
+import type { FeaturedReviewData } from '@src/data/reviewsData';
+import { featuredReview as defaultData } from '@src/data/reviewsData';
+
+interface Props { data?: FeaturedReviewData; }
+const { data = defaultData } = Astro.props;
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <ReviewVideo videoUrl={data.videoUrl} thumb={data.videoThumb} />
+      <ReviewStory
+        badge={data.storyBadge}
+        heading={data.storyHeading}
+        intro={data.storyIntro}
+        quote={data.storyQuote}
+        clientName={data.clientName}
+        clientRole={data.clientRole}
+        avatar={data.clientAvatar}
+      />
+    </div>
+  </div>
+</section>

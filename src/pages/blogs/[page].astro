@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout        from '@layouts/MainLayout.astro';
+import HeadingPage       from '@src/components/blocks/HeadingPage.astro';
+import BlogGridSection   from '@src/components/blogs/BlogGridSection.astro';
+import NewsletterSection from '@src/components/blogs/NewsletterSection.astro';
+
+const PER_PAGE = 9;
+
+export async function getStaticPaths() {
+  const PER_PAGE = 9;
+  const allPosts  = await getCollection('blog');
+  const total     = allPosts.length;
+  const totalPages = Math.ceil(total / PER_PAGE);
+  const paths = [];
+  for (let p = 2; p <= totalPages; p++) {
+    paths.push({ params: { page: String(p) }, props: { totalPages, totalPosts: total } });
+  }
+  return paths;
+}
+
+const { page: pageParam } = Astro.params;
+const { totalPages, totalPosts } = Astro.props;
+const page = Number(pageParam);
+
+const allPosts  = await getCollection('blog');
+const sorted    = allPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const pagePosts = sorted.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+const headingData = {
+  badge:       'Wissen & Praxis',
+  icon:        'bi:journal-text',
+  heading:     'Blog und Einblicke',
+  description: 'Hygieneanforderungen, Reinigungstipps und Branchenwissen für kirchliche Einrichtungen.',
+  breadcrumb:  [{ label: 'Startseite', href: '/' }, { label: 'Blog', href: '/blogs' }, { label: `Seite ${page}` }],
+};
+---
+
+<MainLayout
+  title={`Blog — Seite ${page}`}
+  description="Hygienewissen, Reinigungstipps und Brancheninformationen für kirchliche Einrichtungen in NRW."
+>
+  <HeadingPage data={headingData} />
+  <BlogGridSection
+    posts={pagePosts}
+    totalPosts={totalPosts}
+    currentPage={page}
+    totalPages={totalPages}
+    baseUrl="/blogs/"
+  />
+  <NewsletterSection />
+</MainLayout>

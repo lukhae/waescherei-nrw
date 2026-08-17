@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout          from '@layouts/MainLayout.astro';
+import HeadingPage         from '@src/components/blocks/HeadingPage.astro';
+import ServicesGridSection from '@src/components/sections/ServicesGridSection.astro';
+import FaqSection          from '@src/components/sections/FaqSection.astro';
+import CtaSection          from '@src/components/sections/CtaSection.astro';
+import { cta }             from '@src/data/homepageData';
+
+const services = await getCollection('service');
+const sorted   = services.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const headingData = {
+  badge:       'Wie wir reinigen',
+  icon:        'bi:grid',
+  heading:     'Unsere Leistungen',
+  description: 'Von der täglichen Unterhaltsreinigung bis zur Sakralreinigung und HACCP-konformen Küchenreinigung.',
+  breadcrumb:  [{ label: 'Startseite', href: '/' }, { label: 'Leistungen' }],
+};
+
+const servicesFaqs = [
+  { q: 'Kann ich mehrere Leistungen in einem Vertrag kombinieren?', a: 'Ja. Die meisten unserer Kunden kombinieren Unterhaltsreinigung mit regelmäßigen Grundreinigungen und bei Bedarf Desinfektionseinsätzen. Wir erstellen einen Gesamtvertrag mit einem Ansprechpartner und einer konsolidierten Abrechnung.' },
+  { q: 'Bringen Sie eigenes Equipment und Reinigungsmittel mit?',   a: 'Ja. Unser Team kommt mit professionellen Reinigungsmaschinen, Mikrofasersystemen und allen Reinigungsmitteln. Wir verwenden standardmäßig umweltgerechte, ökologisch verträgliche Produkte.' },
+  { q: 'Wie schnell können Sie mit einer neuen Leistung starten?',  a: 'Für Standardleistungen können wir in der Regel innerhalb von 3–5 Werktagen starten. Dringende Anfragen klären wir telefonisch und versuchen so schnell wie möglich zu reagieren.' },
+  { q: 'Was, wenn ein Reinigungseinsatz nicht dem Standard entspricht?', a: 'Melden Sie sich innerhalb von 24 Stunden und wir kommen kostenlos nach. Unsere Zufriedenheitsgarantie gilt für jeden einzelnen Einsatz.' },
+  { q: 'Sind Ihre Mittel für sensible Einrichtungen geeignet?', a: 'Ja. Für Pflegeeinrichtungen und medizinische Bereiche verwenden wir VAH-gelistete Desinfektionsmittel nach KRINKO-Standard. Für Kitas verwenden wir kindgerechte, toxikologisch unbedenkliche Mittel.' },
+  { q: 'Bieten Sie auch Einzeleinsätze ohne Dauervertrag an?', a: 'Ja. Neben Dauerverträgen führen wir auch Einzeleinsätze für Grundreinigungen, Sonderreinigungen nach Veranstaltungen oder saisonale Reinigungen durch. Kein Vertrag nötig.' },
+];
+
+const servicesCta = {
+  ...cta,
+  heading: 'Nicht sicher, welche Leistung Sie brauchen?',
+};
+---
+
+<MainLayout
+  title="Leistungen — Reinigung im Raum der Kirchen"
+  description="Unterhaltsreinigung, Hygienereinigung, Grundreinigung, Sakralreinigung, Küchenreinigung und Glasreinigung für kirchliche Einrichtungen in NRW."
+>
+  <HeadingPage data={headingData} />
+  <ServicesGridSection services={sorted} />
+  <FaqSection faqs={servicesFaqs} badge="FAQ" heading="Häufige Fragen zu unseren Leistungen" />
+  <CtaSection data={servicesCta} />
+</MainLayout>

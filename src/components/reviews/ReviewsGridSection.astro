@@ -1,0 +1,34 @@
+---
+import ReviewFilterPills  from './ReviewFilterPills.astro';
+import ReviewMasonryGrid  from './ReviewMasonryGrid.astro';
+import type { ReviewItem, FilterCategory } from '@src/data/reviewsData';
+import { reviews as defaultReviews, filterCategories as defaultCats } from '@src/data/reviewsData';
+
+interface Props {
+  reviews?:    ReviewItem[];
+  categories?: FilterCategory[];
+  badge?:      string;
+  heading?:    string;
+}
+
+const {
+  reviews    = defaultReviews,
+  categories = defaultCats,
+  badge      = 'All Reviews',
+  heading    = 'Real Stories from Real Clients',
+} = Astro.props;
+---
+
+<section
+  class="py-20 bg-gray-100"
+  x-init="$store.reviewFilter = 'all'"
+>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-10">
+      <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">{badge}</span>
+      <h2 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight max-w-md mx-auto">{heading}</h2>
+    </div>
+    <ReviewFilterPills categories={categories} />
+    <ReviewMasonryGrid reviews={reviews} />
+  </div>
+</section>

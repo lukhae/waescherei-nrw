@@ -1,0 +1,294 @@
+---
+title: "Cleaning Theme Documentation"
+badge: "Developer Guide"
+icon: "bi:file-earmark-text"
+lastUpdated: "April 24, 2026"
+---
+
+Complete guide to installing, customizing, and building the **Cleaning** Astro theme — a modern, content-driven template for commercial cleaning businesses.
+
+## Getting Started
+
+### Requirements
+
+Before you begin, make sure you have:
+
+- **Node.js** 18.17+ or 20.3+
+- **npm**, **pnpm**, or **yarn** package manager
+- A code editor (VS Code recommended with the Astro extension)
+
+### Installation
+
+Extract the theme zip file and install dependencies:
+
+```bash
+cd cleaning-astro
+npm install
+```
+
+### Development Server
+
+Start the local development server with hot reload:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:4321](http://localhost:4321) in your browser. The server watches all files in `src/` and reloads automatically on changes.
+
+### Build for Production
+
+Generate a production-ready static site:
+
+```bash
+npm run build
+```
+
+The compiled site is output to the `dist/` folder. Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Project Structure
+
+```
+cleaning-astro/
+├── public/
+│   └── img/                   → Static images (optimized JPGs/PNGs)
+├── src/
+│   ├── content/               → MDX content collections
+│   │   ├── services/          → 6 service pages
+│   │   ├── industries/        → 6 industry pages
+│   │   ├── blogs/             → 12 blog articles
+│   │   └── pages/             → Static pages (terms, privacy, docs)
+│   ├── content.config.ts      → Collection schemas (Zod)
+│   ├── data/                  → TypeScript data (homepage, reviews, areas)
+│   ├── layouts/
+│   │   └── MainLayout.astro   → Global layout with Header/Footer
+│   ├── components/
+│   │   ├── blocks/            → Reusable UI pieces (cards, buttons)
+│   │   ├── sections/          → Page sections (hero, reviews, CTA)
+│   │   ├── ui/                → Form inputs, Logo, Button
+│   │   └── {feature}/         → Feature-specific (blogs, services, etc.)
+│   ├── pages/                 → Route files (.astro)
+│   ├── styles/style.css       → Tailwind v4 + CSS variables
+│   ├── scripts/cursor.ts      → Sparkle cursor effect
+│   └── utils/path.ts          → url() helper for base URL handling
+├── astro.config.mjs           → Astro + integrations + fonts + icons
+├── package.json
+└── tsconfig.json
+```
+
+## Customizing Content
+
+### Services (6 MDX files)
+
+Located in `src/content/services/`. Each service has a full detail page at `/services/{slug}`.
+
+To edit an existing service, open the `.mdx` file and modify the frontmatter:
+
+```yaml
+---
+title: "Office Cleaning"
+icon: "bi:building"
+badge: "Most Popular"
+image: "/img/office.jpg"
+excerpt: "Daily, weekly, or custom office cleaning..."
+price: "From $180/visit"
+duration: "1.5-3 hours per visit"
+schedule: "Weekly or Custom"
+features: [...]        # homepage card bullets
+keyFeatures: [...]     # detail page callout
+includeItems: [...]    # "What's Included" grid
+processSteps: [...]    # 4-step onboarding
+serviceInfo: [...]     # sidebar info card
+testimonial: {...}     # client quote block
+faqs: [...]            # optional FAQ section
+---
+```
+
+The Markdown body below the frontmatter renders inside the detail page under the hero image.
+
+**To add a new service:** copy an existing file, rename it (e.g. `window-cleaning.mdx`), and update the frontmatter. The file name becomes the URL slug. It will appear automatically on the homepage, services listing, and get its own detail page.
+
+### Industries (6 MDX files)
+
+Located in `src/content/industries/`. Same workflow as services — edit the MDX frontmatter to update content. New files automatically generate new routes at `/industries/{slug}`.
+
+### Blog Posts (12 MDX files)
+
+Located in `src/content/blogs/`. Blog frontmatter:
+
+```yaml
+---
+title: "How Much Does Commercial Cleaning Cost in New York?"
+excerpt: "A transparent breakdown..."
+image: "/img/blog2.jpg"
+category: "pricing"
+categoryLabel: "Pricing & Costs"
+date: "June 10, 2026"
+readTime: "6 min"
+author: "Sarah Johnson"
+authorRole: "Operations Manager"
+avatar: "/img/team2.jpg"
+tags: ["Pricing", "Commercial Cleaning"]
+featured: true
+---
+```
+
+Set `featured: true` to prioritize a post in the homepage blog section. Posts are automatically sorted by date (newest first) on the blog listing, and paginated 9 per page.
+
+### Static Pages
+
+Pages like Terms, Privacy Policy, and this documentation live in `src/content/pages/`. Each corresponds to an `.astro` route in `src/pages/`. To add a new static page:
+
+1. Create `src/content/pages/your-page.mdx` with minimal frontmatter (`title`, `badge`, `icon`, `lastUpdated`)
+2. Create `src/pages/your-page.astro` using the same pattern as `terms.astro` or `privacy.astro`
+
+## Customizing Homepage Data
+
+### Homepage Sections (non-collection data)
+
+Edit `src/data/homepageData.ts` to customize:
+
+- **Hero section** — heading, subheading, stats, CTA buttons
+- **Why Choose Us** — 4 feature points
+- **How It Works** — 4-step process
+- **Service Areas** — list of NYC neighborhoods
+- **Gallery** — before/after images
+- **Reviews** — carousel testimonials and stats
+- **FAQs** — homepage accordion
+- **CTA banner** — heading and features
+- **Contact info** — phone, email, address
+- **Footer** — links and social icons
+
+All data is strongly-typed. Your IDE will autocomplete field names and catch missing required fields.
+
+Note: Services, industries, and blog posts on the homepage are pulled automatically from MDX collections — you don't need to maintain them in `homepageData.ts`.
+
+### About Page
+
+Edit `src/data/aboutData.ts` to customize story, mission/vision, core values, and team members.
+
+### Reviews Page
+
+Edit `src/data/reviewsData.ts` to customize featured video testimonial, all reviews, filter categories, and platform ratings (Google, Yelp, Facebook, BBB).
+
+### Service Area Page
+
+Edit `src/data/areaData.ts` to customize coverage map text, area cards (one per borough/region), and FAQ entries.
+
+## Styling and Theming
+
+### Brand Colors
+
+Defined as CSS variables in `src/styles/style.css`. To change the color palette, edit the `@theme` block:
+
+```css
+@theme {
+  --color-primary-50:  /* lightest */;
+  --color-primary-300: /* light accent */;
+  --color-primary-400: /* main accent */;
+  --color-primary-600: /* dark accent */;
+  --color-secondary-500: /* deep brand color */;
+  --color-secondary-600: /* text on light backgrounds */;
+}
+```
+
+Classes like `bg-primary-300`, `text-secondary-600` update automatically — no Tailwind config regeneration needed.
+
+### Fonts
+
+Fonts are loaded via the **Astro Fonts API** in `astro.config.mjs` (Astro 6.x top-level `fonts:` key, not `experimental`):
+
+```js
+fonts: [
+  {
+    provider: fontProviders.google(),
+    name: 'DM Serif Display',
+    cssVariable: '--font-heading',
+    weights: ['400'],
+  },
+  {
+    provider: fontProviders.google(),
+    name: 'Inter',
+    cssVariable: '--font-body',
+    weights: ['300', '400', '500', '600', '700', '800'],
+  },
+],
+```
+
+To swap fonts, change the `name` field. Use `fontProviders.google()` for Google Fonts, or other providers like `bunny()` or `fontsource()`. Font files are downloaded at build time and served locally — no external CDN request at runtime.
+
+### Icons
+
+Icons use **Bootstrap Icons** via `astro-icon` and `@iconify-json/bi`. To add a new icon, register its name in `astro.config.mjs`:
+
+```js
+icon({
+  include: {
+    bi: [
+      'arrow-right', 'building', 'hospital',
+      'your-new-icon',  // add here
+    ],
+  },
+}),
+```
+
+Then use it in any component:
+
+```astro
+<Icon name="bi:your-new-icon" class="w-4 h-4 text-primary-600" />
+```
+
+Browse available icons at [icons.getbootstrap.com](https://icons.getbootstrap.com/). Only registered icons are bundled, keeping the build size minimal.
+
+## Deployment
+
+### Static Hosting
+
+The site builds to pure static HTML/CSS/JS in `dist/`. Deploy to any static host:
+
+- **Netlify** — drag-and-drop `dist/` or connect the repo
+- **Vercel** — `vercel --prod` or connect the repo
+- **Cloudflare Pages** — auto-detects Astro
+- **GitHub Pages** — see Astro docs for base URL config
+
+### Base URL (for subpath deployments)
+
+If deploying under a subpath (e.g. `yoursite.com/cleaning/`), update `astro.config.mjs`:
+
+```js
+export default defineConfig({
+  base: '/cleaning',
+  // ...
+});
+```
+
+All internal links use the `url()` helper from `src/utils/path.ts`, so they'll automatically include the base prefix.
+
+## Content from External APIs
+
+The theme uses MDX collections by default, but you can easily swap to an API. In any page, replace:
+
+```ts
+const services = await getCollection('service');
+```
+
+With a fetch call:
+
+```ts
+const res = await fetch('https://your-api.com/services');
+const services = await res.json();
+```
+
+If you need server-rendered data (fresh on every request), switch `output: 'server'` or `hybrid` in `astro.config.mjs`.
+
+## Support
+
+For questions about the theme, customization help, or bug reports, contact us:
+
+**Email:** [lightestcode@gmail.com](mailto:lightestcode@gmail.com)
+
+For Astro-specific questions, the [official Astro docs](https://docs.astro.build/) are an excellent resource.

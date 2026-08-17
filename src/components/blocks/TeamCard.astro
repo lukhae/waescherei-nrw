@@ -1,0 +1,31 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import type { TeamMember } from '@src/data/aboutData';
+
+type Props = TeamMember;
+
+const { image, name, role, linkedin, email } = Astro.props;
+---
+
+<div class="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+  <div class="overflow-hidden h-64 bg-gray-100">
+    <img src={url(image)} alt={name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+  </div>
+  <div class="p-5 text-center">
+    <h3 class="font-heading font-bold text-lg text-secondary-600 mb-1">{name}</h3>
+    <div class="text-primary-600 text-sm font-medium mb-4">{role}</div>
+    <div class="flex justify-center gap-2">
+      {linkedin && (
+        <a href={linkedin} class="w-8 h-8 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-primary-100 hover:text-secondary-600 hover:border-primary-300 transition-all rounded">
+          <Icon name="bi:linkedin" class="w-3.5 h-3.5" />
+        </a>
+      )}
+      {email && (
+        <a href={`mailto:${email}`} class="w-8 h-8 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-primary-100 hover:text-secondary-600 hover:border-primary-300 transition-all rounded">
+          <Icon name="bi:envelope" class="w-3.5 h-3.5" />
+        </a>
+      )}
+    </div>
+  </div>
+</div>

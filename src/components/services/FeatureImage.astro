@@ -1,0 +1,21 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  image:  string;
+  alt:    string;
+  badge?: string;
+}
+
+const { image, alt, badge } = Astro.props;
+---
+
+<div class="relative mb-10 rounded-lg overflow-hidden shadow-xl">
+  <img src={url(image)} alt={alt} class="w-full h-105 object-cover" />
+  {badge && (
+    <div class="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 bg-primary-300 text-secondary-600 text-xs font-bold tracking-widest uppercase rounded">
+      <Icon name="bi:stars" class="w-4 h-4" /> {badge}
+    </div>
+  )}
+</div>

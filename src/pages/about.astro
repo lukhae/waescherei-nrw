@@ -1,0 +1,26 @@
+---
+import MainLayout          from '@layouts/MainLayout.astro';
+import HeadingPage         from '@src/components/blocks/HeadingPage.astro';
+import AboutStorySection   from '@src/components/sections/AboutStorySection.astro';
+import MissionVisionSection from '@src/components/sections/MissionVisionSection.astro';
+import CoreValuesSection   from '@src/components/sections/CoreValuesSection.astro';
+import TeamSection         from '@src/components/sections/TeamSection.astro';
+import CtaSection          from '@src/components/sections/CtaSection.astro';
+import { headingPage }     from '@src/data/aboutData';
+import { cta }             from '@src/data/homepageData';
+
+// Override CTA heading for About page
+const aboutCta = { ...cta, heading: 'Gemeinsam saubere Einrichtungen schaffen' };
+---
+
+<MainLayout
+  title="Über uns — Reinigung im Raum der Kirchen"
+  description="Spezialisiertes Reinigungsunternehmen für kirchliche Einrichtungen in NRW. Über 10 Jahre Erfahrung mit Caritas, Diakonie und Kirchengemeinden."
+>
+  <HeadingPage data={headingPage} />
+  <AboutStorySection />
+  <MissionVisionSection />
+  <CoreValuesSection />
+  <TeamSection />
+  <CtaSection data={aboutCta} />
+</MainLayout>

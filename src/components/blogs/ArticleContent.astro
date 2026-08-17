@@ -1,0 +1,41 @@
+---
+import { Icon } from 'astro-icon/components';
+import SocialShareSticky from './SocialShareSticky.astro';
+import MobileShareBar    from './MobileShareBar.astro';
+
+interface Props {
+  title: string;
+  url:   string;
+  tags?: string[];
+}
+
+const { title, url, tags = [] } = Astro.props;
+---
+
+<section class="pb-20 bg-white">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="lg:flex lg:gap-10">
+      <SocialShareSticky title={title} url={url} />
+      <div class="flex-1 min-w-0">
+        <article class="post-content">
+          <slot />
+        </article>
+
+        {tags.length > 0 && (
+          <div class="mt-12 pt-8 border-t border-gray-200">
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="text-sm font-semibold text-secondary-600 flex items-center gap-2">
+                <Icon name="bi:tags" class="w-4 h-4" /> Tags:
+              </span>
+              {tags.map((tag) => (
+                <span class="inline-block px-3 py-1 bg-gray-100 hover:bg-primary-100 text-secondary-600 text-xs font-semibold rounded-full transition-colors">{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <MobileShareBar title={title} url={url} />
+      </div>
+    </div>
+  </div>
+</section>

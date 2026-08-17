@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface InfoItem { icon: string; label: string; value: string; }
+
+interface Props {
+  heading?: string;
+  items:    InfoItem[];
+}
+
+const { heading = 'Industry Quick Facts', items } = Astro.props;
+---
+
+<div class="bg-white border border-gray-200 p-6 rounded-lg">
+  <h3 class="font-heading font-bold text-base text-secondary-600 mb-4 pb-4 border-b border-gray-100 flex items-center gap-2">
+    <Icon name="bi:info-circle" class="w-4 h-4 text-primary-600" /> {heading}
+  </h3>
+  <ul class="space-y-0 text-sm">
+    {items.map((info) => (
+      <li class="flex items-center justify-between py-2.5 border-b border-gray-50 last:border-0">
+        <span class="flex items-center gap-2 text-gray-500">
+          <Icon name={info.icon} class="w-4 h-4 text-primary-600" />
+          <span>{info.label}</span>
+        </span>
+        <span class="font-semibold text-secondary-600 text-right">{info.value}</span>
+      </li>
+    ))}
+  </ul>
+</div>

@@ -1,0 +1,25 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  heading?:  string;
+  features:  string[];
+}
+
+const { heading = 'Das ist inbegriffen', features = [] } = Astro.props;
+---
+
+<div class="bg-gray-100 border-l-4 border-primary-400 p-7 rounded-r-lg mb-12">
+  <div class="flex items-center gap-2 mb-4">
+    <Icon name="bi:lightning-charge-fill" class="w-5 h-5 text-primary-600" />
+    <h3 class="font-heading font-bold text-lg text-secondary-600">{heading}</h3>
+  </div>
+  <div class="grid sm:grid-cols-2 gap-3">
+    {features.map((f) => (
+      <div class="flex items-center gap-2 text-sm text-gray-700">
+        <Icon name="bi:check-circle-fill" class="w-4 h-4 text-primary-600 shrink-0" />
+        <span set:html={f} />
+      </div>
+    ))}
+  </div>
+</div>

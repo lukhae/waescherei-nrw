@@ -1,0 +1,67 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  currentPage: number;
+  totalPages:  number;
+  baseUrl:     string;  // e.g. '/blogs/'
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+function pageUrl(p: number): string {
+  if (p === 1) return url(baseUrl);
+  return url(`${baseUrl}${p}`);
+}
+
+// Build page range with ellipsis
+function pageRange(current: number, total: number): (number | '...')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | '...')[] = [1];
+  if (current > 3) pages.push('...');
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i);
+  if (current < total - 2) pages.push('...');
+  pages.push(total);
+  return pages;
+}
+
+const range = pageRange(currentPage, totalPages);
+---
+
+{totalPages > 1 && (
+  <nav class="flex items-center justify-center gap-2 mt-12" aria-label="Pagination">
+    <!-- Prev -->
+    {currentPage > 1
+      ? <a href={pageUrl(currentPage - 1)} class="min-w-10 h-10 flex items-center justify-center border border-gray-300 hover:bg-primary-200 transition rounded text-secondary-600">
+          <Icon name="bi:chevron-left" class="w-4 h-4" />
+        </a>
+      : <span class="min-w-10 h-10 flex items-center justify-center border border-gray-200 rounded text-gray-300 cursor-not-allowed">
+          <Icon name="bi:chevron-left" class="w-4 h-4" />
+        </span>
+    }
+
+    {range.map((p) => p === '...'
+      ? <span class="min-w-10 h-10 flex items-center justify-center text-gray-400">…</span>
+      : <a
+          href={pageUrl(p as number)}
+          class:list={[
+            'min-w-10 h-10 flex items-center justify-center border rounded font-semibold transition text-secondary-600',
+            p === currentPage
+              ? 'bg-primary-300 border-primary-300 text-secondary-600'
+              : 'border-gray-300 hover:bg-primary-200',
+          ]}
+        >{p}</a>
+    )}
+
+    <!-- Next -->
+    {currentPage < totalPages
+      ? <a href={pageUrl(currentPage + 1)} class="min-w-10 h-10 flex items-center justify-center border border-gray-300 hover:bg-primary-200 transition rounded text-secondary-600">
+          <Icon name="bi:chevron-right" class="w-4 h-4" />
+        </a>
+      : <span class="min-w-10 h-10 flex items-center justify-center border border-gray-200 rounded text-gray-300 cursor-not-allowed">
+          <Icon name="bi:chevron-right" class="w-4 h-4" />
+        </span>
+    }
+  </nav>
+)}

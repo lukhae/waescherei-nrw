@@ -1,0 +1,45 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  phone?:     string;
+  phoneHref?: string;
+  quoteHref?: string;
+  badge?:     string;
+  heading?:   string;
+  desc?:      string;
+}
+
+const {
+  phone     = '+49 211 000 0000',
+  phoneHref = 'tel:+492110000000',
+  quoteHref = '/contact',
+  badge     = 'Angebot anfragen',
+  heading   = 'Jetzt loslegen?',
+  desc      = 'Wir besichtigen Ihre Einrichtung kostenlos und erstellen innerhalb von 24 Stunden ein maßgeschneidertes Angebot.',
+} = Astro.props;
+---
+
+<div class="bg-secondary-500 p-6 rounded-lg relative overflow-hidden">
+  <div class="absolute right-0 top-0 w-24 h-full bg-primary-400 opacity-10 -skew-x-12 translate-x-8"></div>
+  <div class="relative z-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-400/20 border border-primary-300 text-primary-200 text-xs font-semibold tracking-widest uppercase mb-4 rounded">
+      <Icon name="bi:stars" class="w-3.5 h-3.5" /> {badge}
+    </div>
+    <h3 class="font-heading font-bold text-xl text-white leading-tight mb-2">{heading}</h3>
+    <p class="text-primary-200 text-sm font-light leading-relaxed mb-5">{desc}</p>
+    <div class="space-y-3">
+      <a href={phoneHref} class="w-full inline-flex justify-center items-center gap-2 px-5 py-3 bg-primary-300 text-secondary-600 text-sm font-bold hover:bg-primary-200 transition rounded">
+        <Icon name="bi:telephone-fill" class="w-4 h-4" /> {phone}
+      </a>
+      <a href={url(quoteHref)} class="w-full inline-flex justify-center items-center gap-2 px-5 py-3 border border-white/30 text-white text-sm font-semibold hover:bg-white hover:text-secondary-600 transition rounded">
+        <Icon name="bi:send" class="w-4 h-4" /> Angebot anfragen
+      </a>
+    </div>
+    <div class="flex items-center gap-2 mt-5 pt-5 border-t border-secondary-400 text-primary-200 text-xs">
+      <Icon name="bi:shield-check" class="w-4 h-4 text-primary-300" />
+      <span>Vollversichert, geprüftes Personal</span>
+    </div>
+  </div>
+</div>

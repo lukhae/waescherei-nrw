@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout      from '@layouts/MainLayout.astro';
+import HeadingPage     from '@src/components/blocks/HeadingPage.astro';
+import BlogGridSection from '@src/components/blogs/BlogGridSection.astro';
+import NewsletterSection from '@src/components/blogs/NewsletterSection.astro';
+
+const PER_PAGE = 9;
+
+const allPosts = await getCollection('blog');
+const sorted   = allPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const pagePosts = sorted.slice(0, PER_PAGE);
+const totalPages = Math.ceil(sorted.length / PER_PAGE);
+
+const headingData = {
+  badge:       'Wissen & Praxis',
+  icon:        'bi:journal-text',
+  heading:     'Blog und Einblicke',
+  description: 'Hygieneanforderungen, Reinigungstipps und Branchenwissen für kirchliche Einrichtungen und deren Träger.',
+  breadcrumb:  [{ label: 'Startseite', href: '/' }, { label: 'Blog' }],
+};
+---
+
+<MainLayout
+  title="Blog — Reinigung im Raum der Kirchen"
+  description="Hygienewissen, Reinigungstipps und Brancheninformationen für kirchliche Einrichtungen in NRW."
+>
+  <HeadingPage data={headingData} />
+  <BlogGridSection
+    posts={pagePosts}
+    totalPosts={sorted.length}
+    currentPage={1}
+    totalPages={totalPages}
+    baseUrl="/blogs/"
+  />
+  <NewsletterSection />
+</MainLayout>

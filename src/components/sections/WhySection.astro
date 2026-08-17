@@ -1,0 +1,46 @@
+---
+import { url } from '@src/utils/path';
+import WhyCard from '@src/components/blocks/WhyCard.astro';
+import type { WhyItem } from '@src/data/homepageData';
+import { whyItems as defaultItems } from '@src/data/homepageData';
+
+interface Props {
+  items?:       WhyItem[];
+  badge?:       string;
+  heading?:     string;
+  description?: string;
+  image?:       string;
+  accolade?:    { value: string; label: string };
+}
+
+const {
+  items       = defaultItems,
+  badge       = 'Warum wir',
+  heading     = 'Was uns von anderen unterscheidet',
+  description = '10 Jahre ausschließlich im kirchlichen Umfeld. Nicht breiter aufgestellt, sondern tiefer spezialisiert.',
+  image       = '/img/about.jpg',
+  accolade    = { value: '500+', label: 'Einrichtungen betreut' },
+} = Astro.props;
+---
+
+<section id="about" class="py-20 bg-secondary-500">
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+    <div class="relative">
+      <img src={url(image)} alt="Professionelles Reinigungsteam" class="w-full h-auto object-cover rounded-lg shadow-2xl" />
+      <div class="absolute top-6 left-6 bg-primary-300 px-4 py-3 rounded-lg">
+        <div class="font-heading font-bold text-3xl text-secondary-600">{accolade.value}</div>
+        <div class="text-xs text-secondary-600">{accolade.label}</div>
+      </div>
+    </div>
+    <div>
+      <span class="inline-block py-1 px-4 rounded-full bg-primary-600 text-primary-100 text-xs font-semibold tracking-widest uppercase mb-3">{badge}</span>
+      <h2 class="font-heading font-bold text-4xl lg:text-5xl text-white leading-tight max-w-md mb-6">
+        Was uns <span class="text-primary-400">unterscheidet</span>
+      </h2>
+      <p class="text-primary-100 font-light text-base leading-relaxed mb-8">{description}</p>
+      <div class="grid gap-4">
+        {items.map((item) => <WhyCard {...item} />)}
+      </div>
+    </div>
+  </div>
+</section>

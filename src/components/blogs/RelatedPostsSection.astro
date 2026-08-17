@@ -1,0 +1,45 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import BlogCardItem from '@src/components/blocks/BlogCardItem.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts:    CollectionEntry<'blog'>[];
+  heading?: string;
+}
+
+const { posts, heading = 'Weitere Artikel' } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="py-20 bg-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+        <div>
+          <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">Weiterlesen</span>
+          <h2 class="font-heading font-bold text-3xl lg:text-4xl text-secondary-600 leading-tight">{heading}</h2>
+        </div>
+        <a href={url('/blogs')} class="inline-flex items-center gap-2 text-secondary-600 font-semibold hover:text-primary-600 shrink-0">
+          Alle Artikel <Icon name="bi:arrow-right" class="w-4 h-4" />
+        </a>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        {posts.map((post) => (
+          <BlogCardItem
+            slug={post.id}
+            title={post.data.title}
+            excerpt={post.data.excerpt}
+            image={post.data.image}
+            categoryLabel={post.data.categoryLabel}
+            date={post.data.date}
+            readTime={post.data.readTime}
+            author={post.data.author}
+            avatar={post.data.avatar}
+            compact={true}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+)}

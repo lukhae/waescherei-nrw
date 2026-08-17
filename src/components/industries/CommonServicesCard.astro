@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface AddOn { icon: string; name: string; freq: string; }
+
+interface Props {
+  heading?: string;
+  items:    AddOn[];
+}
+
+const { heading = 'Common Add-Ons', items } = Astro.props;
+---
+
+<div class="bg-gray-100 p-6 rounded-lg">
+  <h3 class="font-heading font-bold text-base text-secondary-600 mb-4 pb-4 border-b border-gray-200 flex items-center gap-2">
+    <Icon name="bi:wrench" class="w-4 h-4 text-primary-600" /> {heading}
+  </h3>
+  <ul class="space-y-3 text-sm text-gray-700">
+    {items.map((s) => (
+      <li class="flex items-center justify-between">
+        <span class="flex items-center gap-2.5">
+          <Icon name={s.icon} class="w-4 h-4 text-primary-600 shrink-0" />
+          <span set:html={s.name} />
+        </span>
+        <span class="text-xs text-gray-400">{s.freq}</span>
+      </li>
+    ))}
+  </ul>
+</div>

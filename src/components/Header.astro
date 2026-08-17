@@ -1,0 +1,111 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import Logo from './ui/Logo.astro';
+
+interface NavLink { label: string; href: string; }
+
+interface Props {
+  links?:     NavLink[];
+  phone?:     string;
+  phoneHref?: string;
+  quoteHref?: string;
+}
+
+const {
+  links = [
+    { label: 'Startseite',    href: url('/')            },
+    { label: 'Über uns',      href: url('/about')       },
+    { label: 'Einrichtungen', href: url('/industries')  },
+    { label: 'Leistungen',   href: url('/services')    },
+    { label: 'Einsatzgebiet', href: url('/service-area')},
+    { label: 'Blog',          href: url('/blogs')       },
+  ],
+  phone     = '+49 211 000 0000',
+  phoneHref = 'tel:+492110000000',
+  quoteHref = url('/contact'),
+} = Astro.props;
+
+// Active link detection
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+function isActive(href: string): boolean {
+  const path = href.replace(/\/$/, '') || '/';
+  if (path === '/') return currentPath === '/';
+  return currentPath === path || currentPath.startsWith(path + '/');
+}
+---
+
+<header
+  class="fixed top-0 left-0 right-0 z-50 bg-secondary-500 transition-all duration-300 border-b border-secondary-400"
+  x-data="{ mobileOpen: false }"
+>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between py-4">
+      <a href={url('/')}><Logo variant="light" /></a>
+      <!-- Desktop nav -->
+      <nav class="hidden lg:flex items-center gap-7">
+        {links.map((link) => {
+          const active = isActive(link.href);
+          return (
+            <a
+              href={link.href}
+              class:list={[
+                'text-sm tracking-wide transition-colors relative pb-0.5',
+                active
+                  ? 'text-white font-semibold'
+                  : 'text-primary-200 hover:text-white',
+              ]}
+              aria-current={active ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Desktop CTA -->
+      <div class="hidden lg:flex items-center gap-4">
+        <a href={phoneHref} class="inline-flex items-center gap-2 text-sm transition text-white hover:text-primary-200">
+          <Icon name="bi:telephone-fill" class="w-4 h-4" /> {phone}
+        </a>
+        <a href={quoteHref} class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-300 text-secondary-600 text-sm font-bold tracking-wide hover:bg-primary-200 transition rounded">
+          Angebot anfragen <Icon name="bi:arrow-right" class="w-4 h-4" />
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button class="lg:hidden p-2 text-white" @click="mobileOpen = !mobileOpen" aria-label="Menü öffnen">
+        <Icon name="bi:list"  class="w-8 h-8" x-show="!mobileOpen" />
+        <Icon name="bi:x-lg" class="w-6 h-6" x-show="mobileOpen" x-cloak />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div x-show="mobileOpen" x-cloak x-transition class="lg:hidden bg-white border-t border-gray-100 shadow-lg max-h-[90vh] pb-12 overflow-y-auto">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col">
+      {links.map((link) => {
+        const active = isActive(link.href);
+        return (
+          <a
+            href={link.href}
+            @click="mobileOpen = false"
+            class:list={[
+              'text-base transition-colors py-3 border-b border-gray-100 last:border-0',
+              active
+                ? 'text-primary-600 font-semibold'
+                : 'text-secondary-600 hover:text-primary-600',
+            ]}
+            aria-current={active ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+      <a href={quoteHref} @click="mobileOpen = false" class="inline-flex justify-center items-center gap-2 px-5 py-3 mt-4 bg-primary-300 text-secondary-600 text-sm font-semibold hover:bg-primary-200 transition rounded">
+        Angebot anfragen <Icon name="bi:arrow-right" class="w-4 h-4" />
+      </a>
+    </div>
+  </div>
+</header>

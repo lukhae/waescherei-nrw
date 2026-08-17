@@ -1,0 +1,169 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { CoverageData } from '@src/data/areaData';
+import { coverageData as defaultData } from '@src/data/areaData';
+
+interface Props { data?: CoverageData; }
+const { data = defaultData } = Astro.props;
+
+// Projektion: lon 5.7–9.7, lat 50.1–52.65 → viewBox 0 0 340 420
+// x = (lon - 5.7) * 80 + 10
+// y = (52.65 - lat) * 156.9 + 10
+const cities = [
+  { name: 'Duisburg',   x: 95,  y: 202, primary: false, anchor: 'end',    dx: -8, dy: 0   },
+  { name: 'Düsseldorf', x: 96,  y: 233, primary: true,  anchor: 'end',    dx: -8, dy: 0   },
+  { name: 'Essen',      x: 115, y: 197, primary: false, anchor: 'middle', dx: 0,  dy: -14 },
+  { name: 'Bochum',     x: 132, y: 194, primary: false, anchor: 'middle', dx: 0,  dy: 13  },
+  { name: 'Dortmund',   x: 151, y: 189, primary: false, anchor: 'start',  dx: 8,  dy: 0   },
+  { name: 'Wuppertal',  x: 130, y: 229, primary: false, anchor: 'start',  dx: 8,  dy: 0   },
+  { name: 'Köln',       x: 111, y: 278, primary: true,  anchor: 'end',    dx: -8, dy: 0   },
+  { name: 'Bonn',       x: 122, y: 311, primary: false, anchor: 'start',  dx: 8,  dy: 0   },
+];
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+
+    <!-- Left: text -->
+    <div>
+      <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">{data.badge}</span>
+      <h2 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight max-w-md mb-6">{data.heading}</h2>
+      <p class="text-gray-600 font-light text-lg leading-relaxed mb-4">{data.description}</p>
+      <p class="text-gray-500 font-light text-base leading-relaxed mb-8">{data.note}</p>
+
+      <div class="grid grid-cols-3 gap-4 mb-8">
+        {data.stats.map((s) => (
+          <div class="text-center p-4 border border-gray-200 bg-gray-100 rounded-lg">
+            <div class="font-heading font-bold text-3xl text-secondary-600">{s.value}</div>
+            <div class="text-gray-500 text-xs tracking-wide mt-1">{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <p class="text-sm text-gray-500 flex items-center gap-2">
+        <Icon name="bi:telephone-fill" class="w-4 h-4 text-primary-600" />
+        Standort nicht dabei?
+        <a href={data.phoneHref} class="text-primary-600 font-semibold ml-1 hover:underline">Einfach anrufen.</a>
+      </p>
+    </div>
+
+    <!-- Right: NRW SVG map -->
+    <div class="relative">
+      <div>
+        <svg viewBox="0 0 340 420" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+
+          <!-- NRW Umriss (genäherte Grenze im Uhrzeigersinn) -->
+          <polygon
+            points="
+              34,136
+              45,108
+              80,80
+              148,68
+              186,60
+              266,62
+              262,85
+              246,112
+              254,156
+              250,185
+              238,238
+              210,270
+              196,288
+              188,344
+              155,375
+              130,380
+              96,362
+              80,348
+              54,338
+              42,328
+              42,306
+              24,311
+              20,290
+              24,259
+              28,230
+              36,206
+              40,146
+            "
+            fill="#dbeafe"
+            stroke="#93c5fd"
+            stroke-width="1.5"
+            stroke-linejoin="round"
+          />
+
+          <!-- Rhein (S nach N) -->
+          <path
+            d="M 122,315 C 116,298 112,288 111,278 C 108,263 102,248 96,233 C 95,218 95,210 95,202 C 90,188 78,172 68,160 C 60,151 50,143 34,136"
+            fill="none"
+            stroke="#60a5fa"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            opacity="0.7"
+          />
+
+          <!-- Ruhr (E nach W) -->
+          <path
+            d="M 151,189 C 140,191 133,193 122,194 C 113,195 103,198 95,202"
+            fill="none"
+            stroke="#93c5fd"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            opacity="0.6"
+          />
+
+          <!-- Städte -->
+          {cities.map((city) => (
+            <g>
+              {city.primary ? (
+                <>
+                  <circle cx={city.x} cy={city.y} r="11" fill="#84cc16" opacity="0.2"/>
+                  <circle cx={city.x} cy={city.y} r="6"  fill="#65a30d"/>
+                  <circle cx={city.x} cy={city.y} r="2.5" fill="white"/>
+                </>
+              ) : (
+                <>
+                  <circle cx={city.x} cy={city.y} r="8"  fill="#1e3a5f" opacity="0.15"/>
+                  <circle cx={city.x} cy={city.y} r="4"  fill="#1e3a5f" opacity="0.75"/>
+                  <circle cx={city.x} cy={city.y} r="1.5" fill="white"/>
+                </>
+              )}
+              <text
+                x={city.x + city.dx}
+                y={city.y + city.dy}
+                font-size="8.5"
+                font-family="Inter, sans-serif"
+                font-weight="600"
+                fill="#0f172a"
+                text-anchor={city.anchor}
+                dominant-baseline="middle"
+              >{city.name}</text>
+            </g>
+          ))}
+
+          <!-- NRW Label -->
+          <text x="215" y="95" font-size="10" font-family="Inter, sans-serif" fill="#94a3b8" font-weight="500" letter-spacing="3">NRW</text>
+
+          <!-- Rhein Label -->
+          <text
+            x="58" y="178"
+            font-size="7"
+            font-family="Inter, sans-serif"
+            fill="#60a5fa"
+            font-weight="500"
+            transform="rotate(-72, 58, 178)"
+          >Rhein</text>
+        </svg>
+      </div>
+
+      <!-- Badge -->
+      <div class="absolute -bottom-4 -right-4 bg-primary-300 px-5 py-3 shadow-xl rounded-lg">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-secondary-500"></span>
+          </span>
+          <span class="text-secondary-600 text-xs font-bold tracking-widest uppercase">Aktives Einsatzgebiet</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

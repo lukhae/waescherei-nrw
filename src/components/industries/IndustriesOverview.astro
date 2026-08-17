@@ -1,0 +1,38 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const stats = [
+  { num: '6',    label: 'Einrichtungstypen',      icon: 'bi:briefcase'     },
+  { num: '500+', label: 'Betreute Einrichtungen', icon: 'bi:building'      },
+  { num: '10+',  label: 'Jahre Erfahrung',        icon: 'bi:calendar-check' },
+  { num: '100%', label: 'Zufriedenheitsgarantie', icon: 'bi:patch-check'   },
+];
+
+const statsJson = JSON.stringify(stats);
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">Spezialisierte Reinigung</span>
+        <h2 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight max-w-md mb-6">Fachwissen für kirchliche Einrichtungen</h2>
+        <div class="post-content">
+          <p>Eine Pflegestation und eine Sakristei haben nahezu nichts gemeinsam, wenn es um Reinigungsanforderungen geht. Die eine braucht KRINKO-konforme Desinfektion und Hygieneprotokolle. Die andere schonende Mittel für empfindliche Holzoberflächen und historische Kunstobjekte.</p>
+          <p>Wir arbeiten nicht mit Einheitslösungen. Jede Einrichtung bekommt einen Reinigungsplan, der auf ihre spezifischen Vorgaben, Abläufe und baulichen Besonderheiten zugeschnitten ist.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-5" x-data={`{ stats: ${statsJson} }`}>
+        {stats.map(stat => (
+          <div class="p-5 bg-gray-100 rounded-lg text-center hover:bg-primary-50 hover:border-primary-400 border border-gray-200 transition-all duration-200">
+            <div class="flex items-center justify-center mx-auto mb-1 rounded-lg">
+              <Icon name={stat.icon} class="text-secondary-600 text-3xl" />
+            </div>
+            <div class="font-heading font-bold text-3xl text-secondary-600 mb-1">{stat.num}</div>
+            <div class="text-gray-500 text-xs tracking-wide">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

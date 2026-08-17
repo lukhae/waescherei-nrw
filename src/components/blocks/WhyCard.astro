@@ -1,0 +1,15 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { WhyItem } from '@src/data/homepageData';
+type Props = WhyItem;
+const { icon, title, desc } = Astro.props;
+---
+<div class="flex items-start gap-4 p-4 border border-secondary-400 hover:border-primary-400 transition-colors rounded-lg">
+  <div class="w-10 h-10 bg-primary-400/20 flex items-center justify-center shrink-0 rounded-lg">
+    <Icon name={icon} class="w-5 h-5 text-primary-300" />
+  </div>
+  <div>
+    <h3 class="font-semibold text-white text-sm">{title}</h3>
+    <p class="text-primary-200 text-xs font-light leading-relaxed mt-1">{desc}</p>
+  </div>
+</div>

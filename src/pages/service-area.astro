@@ -1,0 +1,34 @@
+---
+import MainLayout      from '@layouts/MainLayout.astro';
+import HeadingPage     from '@src/components/blocks/HeadingPage.astro';
+import CoverageOverview from '@src/components/areas/CoverageOverview.astro';
+import AreasGridSection from '@src/components/areas/AreasGridSection.astro';
+import CtaSection      from '@src/components/sections/CtaSection.astro';
+import FaqSection      from '@src/components/sections/FaqSection.astro';
+import { cta }         from '@src/data/homepageData';
+import { areaFaqs }    from '@src/data/areaData';
+
+const headingData = {
+  badge:       'Einsatzgebiete',
+  icon:        'bi:geo-alt-fill',
+  heading:     'Unsere Einsatzgebiete',
+  description: 'Wir betreuen kirchliche Einrichtungen in Köln, Düsseldorf und dem gesamten Ruhrgebiet. Feste Teams vor Ort, keine Subunternehmer.',
+  breadcrumb:  [{ label: 'Startseite', href: '/' }, { label: 'Einsatzgebiete' }],
+};
+
+const areaCta = {
+  ...cta,
+  heading: 'Bereit für saubere Einrichtungen in Ihrer Region?',
+};
+---
+
+<MainLayout
+  title="Einsatzgebiete — Reinigung im Raum der Kirchen"
+  description="Reinigungsdienstleistungen für kirchliche Einrichtungen in Köln, Düsseldorf, Essen, Dortmund, Bochum, Duisburg, Wuppertal und Bonn."
+>
+  <HeadingPage data={headingData} />
+  <CoverageOverview />
+  <AreasGridSection />
+  <CtaSection data={areaCta} />
+  <FaqSection faqs={areaFaqs} badge="FAQ Einsatzgebiete" heading="Häufige Fragen zu unseren Einsatzgebieten" />
+</MainLayout>

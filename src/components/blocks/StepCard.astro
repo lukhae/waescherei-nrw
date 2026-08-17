@@ -1,0 +1,14 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { StepItem } from '@src/data/homepageData';
+type Props = StepItem;
+const { num, icon, title, desc } = Astro.props;
+---
+<div class="text-center px-6 relative z-10">
+  <div class="w-20 h-20 bg-primary-100 border-2 border-primary-200 flex items-center justify-center mx-auto mb-6 rounded-xl">
+    <Icon name={icon} class="w-8 h-8 text-secondary-600" />
+  </div>
+  <div class="font-heading font-bold text-xs text-primary-500 tracking-widest mb-1">{num}</div>
+  <h3 class="font-heading font-bold text-lg text-secondary-600 mb-2">{title}</h3>
+  <p class="text-gray-500 text-base font-light leading-relaxed">{desc}</p>
+</div>

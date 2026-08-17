@@ -1,0 +1,18 @@
+---
+import TeamCard from '@src/components/blocks/TeamCard.astro';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import type { TeamData } from '@src/data/aboutData';
+import { team as defaultTeam } from '@src/data/aboutData';
+
+interface Props { data?: TeamData; }
+const { data = defaultTeam } = Astro.props;
+---
+
+<section class="py-20 bg-gray-100">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge={data.badge} heading={data.heading} description={data.description} align="center" />
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {data.members.map((member) => <TeamCard {...member} />)}
+    </div>
+  </div>
+</section>

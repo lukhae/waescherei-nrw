@@ -1,0 +1,98 @@
+---
+import { getCollection, render } from 'astro:content';
+import MainLayout            from '@layouts/MainLayout.astro';
+import HeadingPage           from '@src/components/blocks/HeadingPage.astro';
+import CtaSection            from '@src/components/sections/CtaSection.astro';
+import IndustryFeatureImage  from '@src/components/industries/IndustryFeatureImage.astro';
+import IndustryOverview      from '@src/components/industries/IndustryOverview.astro';
+import IndustryChallenges    from '@src/components/industries/IndustryChallenges.astro';
+import IndustryIncluded      from '@src/components/industries/IndustryIncluded.astro';
+import IndustryTestimonial   from '@src/components/industries/IndustryTestimonial.astro';
+import ContactCtaCard        from '@src/components/industries/ContactCtaCard.astro';
+import IndustryInfoCard      from '@src/components/industries/IndustryInfoCard.astro';
+import CommonServicesCard    from '@src/components/industries/CommonServicesCard.astro';
+import { cta }               from '@src/data/homepageData';
+
+export async function getStaticPaths() {
+  const industries = await getCollection('industry');
+  return industries.map((ind) => ({
+    params: { slug: ind.id },
+    props:  { industry: ind },
+  }));
+}
+
+const { industry } = Astro.props;
+const { Content }  = await render(industry);
+const d = industry.data;
+
+const headingData = {
+  badge:       'Einrichtungsdetails',
+  icon:        d.icon,
+  heading:     d.title,
+  description: d.excerpt,
+  breadcrumb:  [
+    { label: 'Startseite', href: '/'          },
+    { label: 'Einrichtungen', href: '/industries' },
+    { label: d.title },
+  ],
+};
+
+const industryCta = {
+  ...cta,
+  heading: `Bereit für professionelle Reinigung Ihrer ${d.title}?`,
+};
+---
+
+<MainLayout
+  title={`${d.title} — Reinigung im Raum der Kirchen`}
+  description={d.excerpt}
+>
+  <HeadingPage data={headingData} />
+
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-3 gap-10 lg:gap-12">
+
+        <!-- Main article (2/3) -->
+        <article class="lg:col-span-2">
+          <IndustryFeatureImage
+            image={d.image}
+            alt={d.title}
+            badge={d.badge || undefined}
+            icon={d.icon}
+            servingCount={d.servingCount}
+          />
+
+          <div class="mb-10">
+            <IndustryOverview stats={d.metaStats} />
+            <div class="post-content">
+              <Content />
+            </div>
+          </div>
+
+          <IndustryChallenges
+            heading={`Common ${d.title} Cleaning Challenges`}
+            challenges={d.challenges}
+          />
+
+          <IndustryIncluded items={d.includeItems} />
+
+          <IndustryTestimonial {...d.testimonial} />
+        </article>
+
+        <!-- Sidebar (1/3) -->
+        <aside class="lg:col-span-1">
+          <div class="lg:sticky lg:top-24 space-y-6">
+            <ContactCtaCard
+              heading={`Ready for Professional ${d.title}?`}
+            />
+            <IndustryInfoCard items={d.infoCard} />
+            <CommonServicesCard items={d.addOns} />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <CtaSection data={industryCta} />
+</MainLayout>

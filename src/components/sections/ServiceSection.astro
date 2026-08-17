@@ -1,0 +1,54 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import type { ServiceItem } from '@src/data/homepageData';
+
+interface Props {
+  services: ServiceItem[];
+  heading?: string;
+  badge?:   string;
+  desc?:    string;
+}
+
+const {
+  services,
+  heading = 'Unsere Einrichtungstypen',
+  badge   = 'Wer wir reinigen',
+  desc    = 'Von der Kirche bis zum Gemeindehaus. Alles aus einer Hand.',
+} = Astro.props;
+---
+
+<section id="services" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge={badge} heading={heading} description={desc} align="between" />
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {services.map((s) => (
+        <div class="service-card bg-white border border-gray-200 relative overflow-hidden group rounded-lg flex flex-col">
+          <div class="overflow-hidden h-44">
+            <a href={url(s.href)}>
+              <img src={url(s.image)} alt={s.alt} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </a>
+          </div>
+          <div class="p-7 flex flex-col flex-1">
+            <h3 class="font-heading font-bold text-xl text-secondary-600 hover:text-primary-600 mb-2">
+              <a href={url(s.href)}>{s.title}</a>
+            </h3>
+            <p class="text-gray-500 text-sm mb-4 leading-snug">{s.excerpt}</p>
+            <ul class="space-y-2 mb-6 flex-1 text-sm text-gray-600">
+              {s.features.map((f) => (
+                <li class="flex items-center gap-2">
+                  <Icon name="bi:check2" class="w-4 h-4 text-secondary-600 shrink-0" /> {f}
+                </li>
+              ))}
+            </ul>
+            <a href={url(s.href)} class="inline-flex items-center gap-2 mt-auto text-secondary-600 text-sm font-semibold hover:gap-3 hover:text-primary-600 transition-all">
+              Mehr erfahren <Icon name="bi:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-primary-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

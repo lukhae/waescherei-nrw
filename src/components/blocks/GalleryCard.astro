@@ -1,0 +1,14 @@
+---
+import { url } from '@src/utils/path';
+import type { GalleryItem } from '@src/data/homepageData';
+type Props = GalleryItem;
+const { image, alt, title, description } = Astro.props;
+---
+<div class="group relative overflow-hidden rounded-lg shadow-md border border-gray-100">
+  <a href={url(image)} class="glightbox" data-title={title} data-description={description}>
+    <img src={url(image)} alt={alt} class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" />
+  </a>
+  <div class="absolute bottom-0 left-0 right-0 bg-secondary-500/85 p-4">
+    <p class="text-white text-sm font-semibold font-heading tracking-wide">{title}</p>
+  </div>
+</div>

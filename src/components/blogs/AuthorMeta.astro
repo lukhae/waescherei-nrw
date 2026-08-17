@@ -1,0 +1,28 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  author:     string;
+  authorRole: string;
+  avatar:     string;
+  date:       string;
+  readTime:   string;
+}
+
+const { author, authorRole, avatar, date, readTime } = Astro.props;
+---
+
+<div class="flex items-center gap-4 flex-wrap">
+  <img src={url(avatar)} alt={author} class="w-12 h-12 object-cover rounded-full border-2 border-primary-200 max-sm:hidden" />
+  <div class="flex-1">
+    <div class="font-semibold text-secondary-600 max-sm:hidden">{author}</div>
+    <div class="flex items-center gap-2 text-sm text-gray-500 flex-wrap">
+      <span class="max-sm:hidden">{authorRole}</span>
+      <span class="w-1 h-1 bg-gray-300 rounded-full max-sm:hidden"></span>
+      <span class="flex items-center gap-1"><Icon name="bi:calendar" class="w-3.5 h-3.5" /> {date}</span>
+      <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+      <span class="flex items-center gap-1"><Icon name="bi:clock" class="w-3.5 h-3.5" /> {readTime} read</span>
+    </div>
+  </div>
+</div>

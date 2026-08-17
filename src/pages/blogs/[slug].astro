@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from 'astro:content';
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import MainLayout        from '@layouts/MainLayout.astro';
+import Breadcrumb        from '@src/components/blocks/Breadcrumb.astro';
+import AuthorMeta        from '@src/components/blogs/AuthorMeta.astro';
+import FeatureImageBlog  from '@src/components/blogs/FeatureImageBlog.astro';
+import ArticleContent    from '@src/components/blogs/ArticleContent.astro';
+import RelatedPostsSection from '@src/components/blogs/RelatedPostsSection.astro';
+import NewsletterSection from '@src/components/blogs/NewsletterSection.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+
+const allPosts = await getCollection('blog');
+const related  = allPosts
+  .filter((p) => p.id !== post.id && p.data.category === d.category)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+---
+
+<MainLayout title={`${d.title} — Blog`} description={d.excerpt}>
+
+  <!-- ArticleHeading -->
+  <section class="py-8 bg-white relative">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="mb-6">
+        <Breadcrumb
+          crumbs={[
+            { label: 'Startseite', href: '/'      },
+            { label: 'Blog',       href: '/blogs' },
+            { label: d.title },
+          ]}
+          variant="dark"
+          center={false}
+        />
+      </div>
+
+      <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-5">
+        {d.categoryLabel}
+      </span>
+
+      <h1 class="font-heading font-bold text-4xl sm:text-5xl text-secondary-600 leading-[1.15] tracking-tight mb-5">
+        {d.title}
+      </h1>
+
+      <AuthorMeta
+        author={d.author}
+        authorRole={d.authorRole}
+        avatar={d.avatar}
+        date={d.date}
+        readTime={d.readTime}
+      />
+    </div>
+  </section>
+
+  <FeatureImageBlog image={d.image} alt={d.title} />
+
+  <ArticleContent title={d.title} url={new URL(Astro.url.pathname, Astro.site ?? Astro.url).href} tags={d.tags}>
+    <Content />
+  </ArticleContent>
+
+  <RelatedPostsSection posts={related} />
+  <NewsletterSection />
+</MainLayout>

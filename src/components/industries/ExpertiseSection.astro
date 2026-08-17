@@ -1,0 +1,47 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+
+const points = [
+  { icon: 'bi:mortarboard-fill',   title: 'Fachliche Zertifizierungen',   desc: 'KRINKO-geschulte Teams für Pflege und Medizin. HACCP-Schulung für Küchen und Lebensmittelbereiche.' },
+  { icon: 'bi:file-earmark-check', title: 'Dokumentation & Nachweise',    desc: 'Wir führen vollständige Reinigungsprotokolle und stellen Nachweise für Heimaufsicht und Behörden bereit.' },
+  { icon: 'bi:people-fill',        title: 'Feste Teams pro Einrichtung',  desc: 'Immer derselbe Vorarbeiter, immer dasselbe Team. Ihre Einrichtung wird bekannt und die Qualität bleibt konstant.' },
+  { icon: 'bi:headset',            title: 'Schnelle Erreichbarkeit',      desc: 'Kurzfristige Anfragen, Notfalleinsätze oder Terminänderungen klären wir direkt und unbürokratisch.' },
+];
+
+const pointsJson = JSON.stringify(points);
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="relative order-2 lg:order-1">
+        <img src={url('/img/about.jpg')} alt="Erfahrung mit kirchlichen Einrichtungen" class="w-full h-auto object-cover rounded-lg shadow-2xl" />
+        <div class="absolute -bottom-6 right-4 sm:-right-6 bg-primary-300 p-5 shadow-xl rounded-lg text-center">
+          <div class="font-heading font-bold text-4xl text-secondary-600">100%</div>
+          <div class="text-xs text-secondary-600">Zufriedenheitsgarantie</div>
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">Was uns auszeichnet</span>
+        <h2 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight max-w-md mb-6">Spezialisierung statt Einheitslösung</h2>
+        <p class="text-gray-600 font-light text-lg leading-relaxed mb-6">
+          Jedes Teammitglied erhält eine Grundausbildung in professioneller Reinigung. Für den Einsatz in Pflegeheimen, Kitas oder Kirchengebäuden kommt eine einrichtungsspezifische Schulung hinzu, die genau auf die Anforderungen des jeweiligen Umfelds ausgerichtet ist.
+        </p>
+        <div class="grid gap-4">
+          {points.map(point => (
+            <div class="flex items-start gap-4 p-4 border border-gray-200 hover:border-primary-400 transition-colors rounded-lg">
+              <div class="w-10 h-10 bg-primary-100 flex items-center justify-center shrink-0 rounded-lg">
+                <Icon name={point.icon} class="w-5 h-5 text-secondary-600" />
+              </div>
+              <div>
+                <h3 class="font-semibold text-secondary-600 text-sm">{point.title}</h3>
+                <div class="text-gray-500 text-xs font-light leading-relaxed mt-1">{point.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

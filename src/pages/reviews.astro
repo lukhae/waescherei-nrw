@@ -1,0 +1,34 @@
+---
+import MainLayout            from '@layouts/MainLayout.astro';
+import HeadingPage           from '@src/components/blocks/HeadingPage.astro';
+import FeaturedReview        from '@src/components/reviews/FeaturedReview.astro';
+import ReviewsGridSection    from '@src/components/reviews/ReviewsGridSection.astro';
+import LeaveReviewSection    from '@src/components/reviews/LeaveReviewSection.astro';
+import TrustPlatformsSection from '@src/components/reviews/TrustPlatformsSection.astro';
+
+const headingData = {
+  badge:       'Kundenstimmen',
+  icon:        'bi:chat-quote',
+  heading:     'Was unsere Kunden sagen',
+  description: '150+ verifizierte Bewertungen von kirchlichen Einrichtungen in NRW, die uns vertrauen.',
+  breadcrumb:  [{ label: 'Startseite', href: '/' }, { label: 'Bewertungen' }],
+};
+---
+
+<MainLayout
+  title="Bewertungen — Reinigung im Raum der Kirchen"
+  description="150+ verifizierte Kundenbewertungen kirchlicher Einrichtungen in NRW. Caritas, Diakonie, Pfarreien und mehr."
+>
+  <!-- Alpine global store for filter state -->
+  <script is:inline>
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('reviewFilter', 'all');
+    });
+  </script>
+
+  <HeadingPage data={headingData} />
+  <FeaturedReview />
+  <ReviewsGridSection />
+  <LeaveReviewSection />
+  <TrustPlatformsSection />
+</MainLayout>

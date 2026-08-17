@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout           from '@layouts/MainLayout.astro';
+import HeadingPage          from '@src/components/blocks/HeadingPage.astro';
+import ServiceSection       from '@src/components/sections/ServiceSection.astro';
+import IndustriesOverview   from '@src/components/industries/IndustriesOverview.astro';
+import IndustriesGridSection from '@src/components/industries/IndustriesGridSection.astro';
+import ExpertiseSection     from '@src/components/industries/ExpertiseSection.astro';
+import CtaSection           from '@src/components/sections/CtaSection.astro';
+import { cta, services }    from '@src/data/homepageData';
+
+const industries = await getCollection('industry');
+const sorted     = industries.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const headingData = {
+  badge:       'Einrichtungstypen',
+  icon:        'bi:building',
+  heading:     'Unsere Einrichtungen',
+  description: 'Jeder Einrichtungstyp hat besondere Anforderungen. Wir passen unsere Reinigung an Ihre Einrichtung, Ihre Vorgaben und Ihren Ablauf an.',
+  breadcrumb:  [{ label: 'Startseite', href: '/' }, { label: 'Einrichtungen' }],
+};
+
+const industryCta = {
+  ...cta,
+  heading: 'Bereit für spezialisierte Reinigung in Ihrer Einrichtung?',
+};
+---
+
+<MainLayout
+  title="Einrichtungen — Reinigung im Raum der Kirchen"
+  description="Reinigung für Kirchen, Pflegeheime, Kitas, Gemeindehäuser, soziale Einrichtungen und kirchliche Verwaltung in NRW."
+>
+  <HeadingPage data={headingData} />
+  <IndustriesOverview />
+  <IndustriesGridSection industries={sorted} />
+  <ExpertiseSection />
+  <ServiceSection services={services} heading="Unsere Einrichtungen" badge="Für wen wir reinigen" desc="Jeder Einrichtungstyp bekommt einen Reinigungsplan der auf seine spezifischen Anforderungen zugeschnitten ist." />
+  <CtaSection data={industryCta} />
+</MainLayout>

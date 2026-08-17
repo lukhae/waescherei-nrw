@@ -1,0 +1,42 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import type { ContactInfoItem } from '@src/data/homepageData';
+import { contactInfo } from '@src/data/homepageData';
+
+interface Props {
+  badge?:       string;
+  heading?:     string;
+  description?: string;
+  items?:       ContactInfoItem[];
+}
+
+const {
+  badge       = 'Kontakt aufnehmen',
+  heading     = 'Angebot anfragen',
+  description = 'Füllen Sie das Formular aus und wir melden uns innerhalb weniger Stunden für eine kostenlose Besichtigung bei Ihnen.',
+  items       = contactInfo,
+} = Astro.props;
+---
+
+<div>
+  {badge && <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">{badge}</span>}
+  <h2 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight max-w-md mb-6">{heading}</h2>
+  <p class="text-gray-600 font-light text-lg leading-relaxed mb-10">{description}</p>
+  <div class="space-y-6">
+    {items.map((info) => (
+      <div class="flex items-start gap-4">
+        <div class="w-10 h-10 bg-primary-50 flex items-center justify-center shrink-0 rounded-lg">
+          <Icon name={info.icon} class="w-5 h-5 text-secondary-600" />
+        </div>
+        <div>
+          <div class="text-xs font-semibold tracking-wide text-gray-400 uppercase mb-1">{info.label}</div>
+          {info.href
+            ? <a href={info.href} class="text-secondary-600 text-sm hover:text-primary-600 transition-colors whitespace-pre-line">{info.value}</a>
+            : <div class="text-secondary-600 text-sm whitespace-pre-line">{info.value}</div>
+          }
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

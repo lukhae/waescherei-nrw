@@ -1,0 +1,31 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  videoUrl:  string;
+  thumb:     string;
+  alt?:      string;
+}
+
+const { videoUrl, thumb, alt = 'Client video testimonial' } = Astro.props;
+---
+
+<div class="relative order-2 lg:order-1">
+  <a href={videoUrl} class="glightbox" data-type="video">
+    <div class="relative rounded-lg overflow-hidden shadow-2xl group cursor-pointer">
+      <img src={url(thumb)} alt={alt} class="w-full h-105 object-cover" />
+      <div class="absolute inset-0 bg-secondary-500/40 group-hover:bg-secondary-500/20 transition-colors"></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+          <Icon name="bi:play-fill" class="w-10 h-10 text-secondary-500 ml-1" />
+        </div>
+      </div>
+      <div class="absolute bottom-6 left-6 bg-primary-300 px-4 py-2 rounded">
+        <span class="text-secondary-600 text-xs font-bold tracking-widest uppercase flex items-center gap-1.5">
+          <Icon name="bi:camera-video-fill" class="w-3.5 h-3.5" /> Kundenstimme (Video)
+        </span>
+      </div>
+    </div>
+  </a>
+</div>

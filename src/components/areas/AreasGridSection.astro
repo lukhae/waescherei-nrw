@@ -1,0 +1,29 @@
+---
+import AreaCard from '@src/components/areas/AreaCard.astro';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import { areas as defaultAreas } from '@src/data/areaData';
+import type { AreaItem } from '@src/data/areaData';
+
+interface Props {
+  areas?:   AreaItem[];
+  badge?:   string;
+  heading?: string;
+  desc?:    string;
+}
+
+const {
+  areas   = defaultAreas,
+  badge   = 'Wo wir arbeiten',
+  heading = 'Unsere Einsatzregionen',
+  desc    = 'Feste Teams in jeder Region, keine Subunternehmer.',
+} = Astro.props;
+---
+
+<section class="py-20 bg-gray-100">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge={badge} heading={heading} description={desc} align="center" />
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {areas.map((area) => <AreaCard {...area} />)}
+    </div>
+  </div>
+</section>

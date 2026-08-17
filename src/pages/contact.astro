@@ -1,0 +1,21 @@
+---
+import MainLayout   from '@layouts/MainLayout.astro';
+import HeadingPage  from '@src/components/blocks/HeadingPage.astro';
+import ContactPage  from '@src/components/contact/ContactPage.astro';
+
+const headingData = {
+  badge:       'Kontakt aufnehmen',
+  icon:        'bi:envelope',
+  heading:     'Sprechen Sie uns an',
+  description: 'Fragen zu unseren Leistungen oder ein Angebot anfragen? Wir melden uns innerhalb von 24 Stunden, meistens deutlich schneller.',
+  breadcrumb:  [{ label: 'Startseite', href: '/' }, { label: 'Kontakt' }],
+};
+---
+
+<MainLayout
+  title="Kontakt — Reinigung im Raum der Kirchen"
+  description="Sprechen Sie uns an. Angebot für Reinigungsdienstleistungen kirchlicher Einrichtungen in NRW anfragen."
+>
+  <HeadingPage data={headingData} />
+  <ContactPage />
+</MainLayout>

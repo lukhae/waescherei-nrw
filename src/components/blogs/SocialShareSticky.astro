@@ -1,0 +1,39 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  title: string;
+  url:   string;
+}
+
+const { title, url: pageUrl } = Astro.props;
+const encoded = encodeURIComponent(pageUrl);
+const titleEncoded = encodeURIComponent(title);
+
+const socials = [
+  { icon: 'bi:facebook',   label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encoded}` },
+  { icon: 'bi:twitter-x',  label: 'Twitter',  href: `https://twitter.com/intent/tweet?url=${encoded}&text=${titleEncoded}` },
+  { icon: 'bi:linkedin',   label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encoded}` },
+  { icon: 'bi:envelope',   label: 'Email',    href: `mailto:?subject=${titleEncoded}&body=${encoded}` },
+  { icon: 'bi:link-45deg', label: 'Copy Link', href: '#' },
+];
+---
+
+<aside class="hidden lg:block shrink-0 w-12">
+  <div class="sticky top-24 flex flex-col items-center gap-3">
+    <span class="text-xs text-gray-400 uppercase tracking-widest [writing-mode:vertical-rl] rotate-180 mb-2">Share</span>
+    {socials.map((s) => (
+      s.label === 'Copy Link'
+        ? <button
+            title={s.label}
+            onclick={`navigator.clipboard.writeText('${pageUrl}').then(()=>{this.classList.add('bg-primary-400','text-white');setTimeout(()=>this.classList.remove('bg-primary-400','text-white'),1500)})`}
+            class="w-10 h-10 bg-gray-100 hover:bg-primary-400 hover:text-white flex items-center justify-center text-gray-500 transition-all rounded-full cursor-pointer">
+            <Icon name={s.icon} class="w-4 h-4" />
+          </button>
+        : <a href={s.href} target="_blank" rel="noopener noreferrer" title={s.label}
+            class="w-10 h-10 bg-gray-100 hover:bg-primary-400 hover:text-white flex items-center justify-center text-gray-500 transition-all rounded-full">
+            <Icon name={s.icon} class="w-4 h-4" />
+          </a>
+    ))}
+  </div>
+</aside>

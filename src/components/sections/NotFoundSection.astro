@@ -1,0 +1,54 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import Button from '@src/components/ui/Button.astro';
+
+interface Props {
+  heading?:     string;
+  description?: string;
+  contactHref?: string;
+}
+
+const {
+  heading     = 'Seite nicht gefunden',
+  description = 'Die gesuchte Seite wurde verschoben, gelöscht oder hat nie existiert.',
+  contactHref = '/contact',
+} = Astro.props;
+---
+
+<div class="flex items-center justify-center py-20 px-6">
+  <div class="max-w-2xl mx-auto text-center">
+    <!-- Error icon + number -->
+    <div class="mb-8">
+      <div class="inline-flex items-center justify-center w-32 h-32 bg-primary-50 rounded-full mb-6">
+        <Icon name="bi:exclamation-triangle" class="w-16 h-16 text-primary-600" />
+      </div>
+      <div class="font-heading font-bold text-8xl text-secondary-600 tracking-tight">404</div>
+    </div>
+
+    <h1 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight mb-4">{heading}</h1>
+    <p class="text-gray-600 font-light text-lg leading-relaxed mb-8 max-w-lg mx-auto">{description}</p>
+
+    <!-- CTA buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button
+        onclick="history.back()"
+        class="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-secondary-500 text-secondary-600 font-semibold text-sm hover:bg-secondary-500 hover:text-white transition rounded"
+      >
+        <Icon name="bi:arrow-left" class="w-4 h-4" /> Zurück
+      </button>
+      <Button href={url('/')} variant="primary">
+        <Icon name="bi:house" class="w-4 h-4" /> Zur Startseite
+      </Button>
+    </div>
+
+    <!-- Help text -->
+    <div class="pt-8 border-t border-gray-100 mt-8">
+      <p class="text-sm text-gray-500">
+        Können Sie nicht finden, was Sie suchen?{' '}
+        <a href={url(contactHref)} class="text-primary-600 font-semibold hover:underline">Kontaktieren Sie uns</a>
+        {' '}und wir helfen Ihnen weiter.
+      </p>
+    </div>
+  </div>
+</div>

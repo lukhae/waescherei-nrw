@@ -1,0 +1,18 @@
+---
+import MissionCard from '@src/components/blocks/MissionCard.astro';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import type { MissionVisionData } from '@src/data/aboutData';
+import { missionVision as defaultData } from '@src/data/aboutData';
+
+interface Props { data?: MissionVisionData; }
+const { data = defaultData } = Astro.props;
+---
+
+<section class="py-20 bg-gray-100">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge={data.badge} heading={data.heading} description={data.description} align="center" />
+    <div class="grid md:grid-cols-2 gap-6">
+      {data.cards.map((card) => <MissionCard {...card} />)}
+    </div>
+  </div>
+</section>

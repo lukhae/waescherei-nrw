@@ -1,0 +1,27 @@
+---
+import FaqCard from '@src/components/blocks/FaqCard.astro';
+import HeadingSection from '@src/components/blocks/HeadingSection.astro';
+import type { FaqItem } from '@src/data/homepageData';
+import { faqs as defaultFaqs } from '@src/data/homepageData';
+
+interface Props {
+  faqs?:    FaqItem[];
+  badge?:   string;
+  heading?: string;
+}
+
+const {
+  faqs    = defaultFaqs,
+  badge   = 'FAQ',
+  heading = 'Häufige Fragen',
+} = Astro.props;
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <HeadingSection badge={badge} heading={heading} align="center" />
+    <div class="space-y-4" x-data="{ open: null }">
+      {faqs.map((faq, i) => <FaqCard question={faq.q} answer={faq.a} index={i} />)}
+    </div>
+  </div>
+</section>

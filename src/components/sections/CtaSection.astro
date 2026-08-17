@@ -1,0 +1,32 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import Button from '@src/components/ui/Button.astro';
+import type { CtaData } from '@src/data/homepageData';
+import { cta as defaultCta } from '@src/data/homepageData';
+
+interface Props { data?: CtaData; }
+const { data = defaultCta } = Astro.props;
+---
+
+<section class="relative py-20 overflow-hidden bg-cover bg-fixed" style={`background-image: url('${url(data.bgImage)}');`}>
+  <div class="absolute inset-0 bg-secondary-500/85"></div>
+  <div class="relative z-10 max-w-4xl mx-auto px-6 flex flex-col items-center text-center">
+    <h2 class="font-heading font-bold text-4xl md:text-5xl text-white leading-tight mb-6">{data.heading}</h2>
+    <div class="flex flex-wrap items-center justify-center text-lg gap-2 mb-8 max-w-md mx-auto">
+      {data.features.map((f) => (
+        <span class="text-primary-200 flex items-center gap-2">
+          <Icon name="bi:check2-circle" class="w-5 h-5 text-primary-400" /> {f}
+        </span>
+      ))}
+    </div>
+    <div class="max-sm:w-full flex flex-col sm:flex-row gap-4 shrink-0">
+      <Button href={data.phoneHref} variant="white">
+        <Icon name="bi:telephone-fill" class="w-4 h-4 text-primary-600" /> {data.phone}
+      </Button>
+      <Button href={url(data.quoteHref)} variant="ghost">
+        <Icon name="bi:send" class="w-4 h-4" /> Angebot anfragen
+      </Button>
+    </div>
+  </div>
+</section>

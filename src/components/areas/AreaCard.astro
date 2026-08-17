@@ -1,0 +1,42 @@
+---
+import { url } from '@src/utils/path';
+import { Icon } from 'astro-icon/components';
+import type { AreaItem } from '@src/data/areaData';
+
+type Props = AreaItem & { contactHref?: string };
+
+const { img, name, clients, response, zips, desc, badge, contactHref = '/contact' } = Astro.props;
+---
+
+<div class="bg-white border border-gray-200 rounded-lg overflow-hidden group hover:shadow-md hover:border-primary-400 transition-all duration-200 flex flex-col">
+  <div class="relative h-44 overflow-hidden">
+    <img src={url(img)} alt={name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+    <div class="absolute inset-0 bg-linear-to-t from-secondary-600/90 via-secondary-600/30 to-transparent"></div>
+    {badge && (
+      <span class="absolute top-3 right-3 bg-primary-300 text-secondary-600 text-xs font-bold tracking-wide uppercase px-3 py-1 rounded">{badge}</span>
+    )}
+    <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+      <h3 class="text-white font-heading font-bold text-2xl leading-tight" set:html={name} />
+      <span class="text-primary-300 text-xs font-semibold">{clients}</span>
+    </div>
+  </div>
+  <div class="p-6 flex flex-col flex-1">
+    <p class="text-gray-500 text-sm font-light leading-relaxed mb-4 flex-1">{desc}</p>
+    <div class="grid grid-cols-2 gap-3 mb-5 text-xs pb-5 border-b border-gray-100">
+      <div>
+        <div class="text-gray-400 uppercase tracking-wide">Reaktionszeit</div>
+        <div class="font-semibold text-secondary-600 mt-0.5 flex items-center gap-1">
+          <Icon name="bi:lightning-charge-fill" class="w-3.5 h-3.5 text-primary-600" />
+          {response}
+        </div>
+      </div>
+      <div>
+        <div class="text-gray-400 uppercase tracking-wide">Postleitzahlen</div>
+        <div class="font-semibold text-secondary-600 mt-0.5" set:html={zips} />
+      </div>
+    </div>
+    <a href={url(contactHref)} class="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-primary-300 text-secondary-600 text-sm font-bold hover:bg-primary-200 transition rounded">
+      Anfrage stellen <Icon name="bi:arrow-right" class="w-4 h-4" />
+    </a>
+  </div>
+</div>

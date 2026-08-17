@@ -1,0 +1,48 @@
+---
+type Align = 'center' | 'between';
+
+interface Props {
+  badge?:       string;
+  heading:      string;
+  description?: string;
+  align?:       Align;
+  moreHref?:    string;
+  moreLabel?:   string;
+}
+
+const {
+  badge,
+  heading,
+  description,
+  align = 'center',
+  moreHref,
+  moreLabel = 'Alle Artikel',
+} = Astro.props;
+---
+
+{align === 'center' && (
+  <div class="text-center mb-12">
+    {badge && <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">{badge}</span>}
+    <h2 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight max-w-md mx-auto">{heading}</h2>
+    {description && <p class="text-gray-500 font-light text-lg mt-4 max-w-xl mx-auto">{description}</p>}
+  </div>
+)}
+
+{align === 'between' && (
+  <div class="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center mb-12">
+    <div>
+      {badge && <span class="inline-block py-1 px-4 rounded-full bg-primary-100 text-secondary-600 text-xs font-semibold tracking-widest uppercase mb-3">{badge}</span>}
+      <h2 class="font-heading font-bold text-4xl lg:text-5xl text-secondary-600 leading-tight max-w-md">{heading}</h2>
+    </div>
+    {description && (
+      <div class="flex flex-col gap-4 items-start">
+        <p class="text-gray-500 font-light text-lg leading-relaxed">{description}</p>
+        {moreHref && (
+          <a href={moreHref} class="flex items-center sm:ms-auto gap-2 text-secondary-600 font-semibold hover:text-primary-600 shrink-0">
+            {moreLabel} <slot />
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+)}

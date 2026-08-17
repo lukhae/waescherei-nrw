@@ -1,0 +1,20 @@
+---
+import type { FilterCategory } from '@src/data/reviewsData';
+
+interface Props {
+  categories: FilterCategory[];
+}
+const { categories } = Astro.props;
+const catsJson = JSON.stringify(categories);
+---
+
+<div class="flex flex-wrap justify-center gap-2 mb-10" x-data={`{ categories: ${catsJson} }`}>
+  <template x-for="cat in categories" :key="cat.id">
+    <button
+      @click="$dispatch('filter-change', cat.id)"
+      :class="$store.reviewFilter === cat.id ? 'bg-secondary-500 text-white border-secondary-500' : 'bg-white text-secondary-600 border-gray-200 hover:border-primary-400 hover:text-primary-600'"
+      class="px-5 py-2 text-sm font-semibold rounded-full border transition-all"
+      x-text="cat.label">
+    </button>
+  </template>
+</div>

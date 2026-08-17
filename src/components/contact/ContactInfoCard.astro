@@ -1,0 +1,101 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  phone?:    string;
+  phoneHref?: string;
+  email?:    string;
+  address?:  string[];
+  hours?:    string[];
+  socials?:  { icon: string; href: string }[];
+}
+
+const {
+  phone     = '+49 211 000 0000',
+  phoneHref = 'tel:+492110000000',
+  email     = 'info@[firmenname].de',
+  address   = ['Musterstraße 1', '40210 Düsseldorf'],
+  hours     = ['Mo.–Fr.: 7–19 Uhr', 'Sa.: 9–14 Uhr', 'So.: Geschlossen'],
+  socials   = [
+    { icon: 'bi:facebook',  href: '#' },
+    { icon: 'bi:instagram', href: '#' },
+    { icon: 'bi:linkedin',  href: '#' },
+  ],
+} = Astro.props;
+---
+
+<div class="bg-secondary-500 p-6 rounded-lg relative overflow-hidden">
+  <div class="absolute right-0 top-0 w-24 h-full bg-primary-400 opacity-10 -skew-x-12 translate-x-8"></div>
+  <div class="relative z-10">
+    <h3 class="font-heading font-bold text-xl text-white leading-tight mb-5">Kontakt aufnehmen</h3>
+    <div class="space-y-4">
+
+      <!-- Phone -->
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 bg-primary-400/20 flex items-center justify-center shrink-0 rounded-lg">
+          <Icon name="bi:telephone-fill" class="w-5 h-5 text-primary-300" />
+        </div>
+        <div>
+          <div class="text-primary-200 text-xs mb-1">Telefon</div>
+          <a href={phoneHref} class="text-white font-semibold hover:text-primary-300 transition">{phone}</a>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 bg-primary-400/20 flex items-center justify-center shrink-0 rounded-lg">
+          <Icon name="bi:envelope-fill" class="w-5 h-5 text-primary-300" />
+        </div>
+        <div>
+          <div class="text-primary-200 text-xs mb-1">E-Mail</div>
+          <a href={`mailto:${email}`} class="text-white font-semibold hover:text-primary-300 transition break-all">{email}</a>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 bg-primary-400/20 flex items-center justify-center shrink-0 rounded-lg">
+          <Icon name="bi:geo-alt-fill" class="w-5 h-5 text-primary-300" />
+        </div>
+        <div>
+          <div class="text-primary-200 text-xs mb-1">Adresse</div>
+          <address class="text-white font-semibold not-italic text-sm">
+            {address.map((line, i) => (
+              <>{line}{i < address.length - 1 && <br />}</>
+            ))}
+          </address>
+        </div>
+      </div>
+
+      <!-- Hours -->
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 bg-primary-400/20 flex items-center justify-center shrink-0 rounded-lg">
+          <Icon name="bi:clock-fill" class="w-5 h-5 text-primary-300" />
+        </div>
+        <div>
+          <div class="text-primary-200 text-xs mb-1">Öffnungszeiten</div>
+          <div class="text-white font-semibold text-sm">
+            {hours.map((h, i) => (
+              <>{h}{i < hours.length - 1 && <br />}</>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer row -->
+    <div class="pt-5 mt-5 border-t border-secondary-400">
+      <div class="flex items-center gap-2 text-primary-200 text-xs mb-3">
+        <Icon name="bi:shield-check" class="w-4 h-4 text-primary-300" />
+        <span>Notfalleinsätze nach Absprache</span>
+      </div>
+      <div class="flex gap-3">
+        {socials.map((s) => (
+          <a href={s.href} class="w-9 h-9 bg-white/10 hover:bg-primary-400 flex items-center justify-center rounded transition">
+            <Icon name={s.icon} class="w-4 h-4 text-white" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

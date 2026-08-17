@@ -1,0 +1,18 @@
+---
+import { getEntry, render } from 'astro:content';
+import MainLayout     from '@layouts/MainLayout.astro';
+import HeadingPages   from '@src/components/blocks/HeadingPages.astro';
+import ContentPages   from '@src/components/blocks/ContentPages.astro';
+
+const entry = await getEntry('pages', 'terms');
+if (!entry) return Astro.redirect('/404');
+const { Content } = await render(entry);
+const d = entry.data;
+---
+
+<MainLayout title={`${d.title} — Reinigung im Raum der Kirchen`} description={d.title}>
+  <HeadingPages title={d.title} badge={d.badge} icon={d.icon} lastUpdated={d.lastUpdated} />
+  <ContentPages>
+    <Content />
+  </ContentPages>
+</MainLayout>

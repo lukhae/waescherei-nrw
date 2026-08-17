@@ -1,0 +1,78 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import MainLayout        from '@layouts/MainLayout.astro';
+import HeadingPage       from '@src/components/blocks/HeadingPage.astro';
+import FaqContent        from '@src/components/blocks/FaqContent.astro';
+import CtaSection        from '@src/components/sections/CtaSection.astro';
+import FeatureImage      from '@src/components/services/FeatureImage.astro';
+import KeyFeatures       from '@src/components/services/KeyFeatures.astro';
+import WhatIncluded      from '@src/components/services/WhatIncluded.astro';
+import ProcessSteps      from '@src/components/services/ProcessSteps.astro';
+import TestimonialQuote  from '@src/components/services/TestimonialQuote.astro';
+import ContactCtaCard    from '@src/components/services/ContactCtaCard.astro';
+import ServiceInfoCard   from '@src/components/services/ServiceInfoCard.astro';
+import WhyChooseCard     from '@src/components/services/WhyChooseCard.astro';
+import { cta }           from '@src/data/homepageData';
+
+export async function getStaticPaths() {
+  const services = await getCollection('service');
+  return services.map((s) => ({
+    params: { slug: s.id },
+    props:  { service: s },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+const d = service.data;
+
+const headingData = {
+  badge:       'Leistungsdetails',
+  icon:        d.icon,
+  heading:     d.title,
+  description: d.excerpt,
+  breadcrumb:  [
+    { label: 'Startseite',   href: '/'        },
+    { label: 'Leistungen', href: '/services' },
+    { label: d.title },
+  ],
+};
+
+const serviceCta = {
+  ...cta,
+  heading: `Bereit für professionelle ${d.title}?`,
+};
+---
+
+<MainLayout title={`${d.title} — Reinigung im Raum der Kirchen`} description={d.excerpt}>
+  <HeadingPage data={headingData} />
+
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-3 gap-10 lg:gap-12">
+        <!-- Main article -->
+        <article class="lg:col-span-2">
+          <FeatureImage image={d.image} alt={d.title} badge={d.badge} />
+          <div class="post-content mb-10">
+            <Content />
+          </div>
+          <WhatIncluded items={d.includeItems} />
+          <ProcessSteps steps={d.processSteps} />
+          {d.testimonial && <TestimonialQuote {...d.testimonial} />}
+          <FaqContent faqs={d.faqs} />
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+          <ServiceInfoCard items={d.serviceInfo} />
+          <ContactCtaCard />
+          <WhyChooseCard />
+          <KeyFeatures items={d.keyFeatures} />
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <CtaSection data={serviceCta} />
+</MainLayout>

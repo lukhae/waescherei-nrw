@@ -1,0 +1,38 @@
+---
+import ServiceCardItem from '@src/components/blocks/ServiceCardItem.astro';
+import HeadingSection  from '@src/components/blocks/HeadingSection.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  services: CollectionEntry<'service'>[];
+  badge?:   string;
+  heading?: string;
+  desc?:    string;
+}
+
+const {
+  services,
+  badge   = 'Was wir tun',
+  heading = 'Unsere Reinigungsleistungen',
+  desc    = 'Von der täglichen Unterhaltsreinigung bis zur Sakralreinigung und HACCP-konformen Küchenreinigung. Professionell und spezialisiert auf kirchliche Einrichtungen.',
+} = Astro.props;
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <HeadingSection badge={badge} heading={heading} description={desc} align="between" />
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {services.map((s) => (
+        <ServiceCardItem
+          slug={s.id}
+          title={s.data.title}
+          badge={s.data.badge}
+          image={s.data.image}
+          excerpt={s.data.excerpt}
+          price={s.data.price}
+          features={s.data.features}
+        />
+      ))}
+    </div>
+  </div>
+</section>

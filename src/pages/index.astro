@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout         from '@layouts/MainLayout.astro';
+import HeroSection        from '@src/components/sections/HeroSection.astro';
+import ServiceSection     from '@src/components/sections/ServiceSection.astro';
+import IndustriesSection  from '@src/components/sections/IndustriesSection.astro';
+import WhySection         from '@src/components/sections/WhySection.astro';
+import HowSection         from '@src/components/sections/HowSection.astro';
+import ServiceArea        from '@src/components/sections/ServiceArea.astro';
+import GallerySection     from '@src/components/sections/GallerySection.astro';
+import ReviewsSection     from '@src/components/sections/ReviewsSection.astro';
+import FaqSection         from '@src/components/sections/FaqSection.astro';
+import BlogSection        from '@src/components/sections/BlogSection.astro';
+import CtaSection         from '@src/components/sections/CtaSection.astro';
+import ContactSection     from '@src/components/sections/ContactSection.astro';
+import { services, industries } from '@src/data/homepageData';
+
+const allBlogs = await getCollection('blog');
+const blogs    = allBlogs
+  .sort((a, b) => {
+    if (a.data.featured && !b.data.featured) return -1;
+    if (!a.data.featured && b.data.featured) return 1;
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  })
+  .slice(0, 4);
+---
+
+<MainLayout
+  title="Professionelle Reinigung in NRW — Gewerbe, Wohnimmobilien & mehr"
+  description="Zuverlässige Reinigungsdienstleistungen für Büros, Wohnimmobilien, Gastronomie, Einzelhandel und Industrie in Köln, Düsseldorf und dem Ruhrgebiet."
+>
+  <HeroSection />
+  <ServiceSection services={services} />
+  <IndustriesSection industries={industries} />
+  <WhySection />
+  <HowSection />
+  <ServiceArea />
+  <GallerySection />
+  <ReviewsSection />
+  <FaqSection />
+  <BlogSection posts={blogs} />
+  <CtaSection />
+  <ContactSection />
+</MainLayout>

@@ -1,0 +1,42 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface ReviewLink { icon: string; label: string; href: string; }
+
+interface Props {
+  heading?: string;
+  desc?:    string;
+  links?:   ReviewLink[];
+}
+
+const {
+  heading = 'Zufriedener Kunde?',
+  desc    = 'Ihre Bewertung hilft anderen kirchlichen Einrichtungen bei der Entscheidung und zeigt unserem Team, dass die Arbeit geschätzt wird.',
+  links   = [
+    { icon: 'bi:google',   label: 'Auf Google bewerten',   href: '#' },
+    { icon: 'bi:facebook', label: 'Auf Facebook bewerten',  href: '#' },
+  ],
+} = Astro.props;
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="bg-gray-100 p-10 lg:p-14 rounded-lg text-center relative overflow-hidden">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-primary-400 opacity-10 -skew-x-12 translate-x-20 hidden md:block"></div>
+      <div class="relative z-10">
+        <div class="w-16 h-16 bg-primary-300 flex items-center justify-center mx-auto mb-5 rounded-xl">
+          <Icon name="bi:chat-heart-fill" class="w-8 h-8 text-secondary-600" />
+        </div>
+        <h2 class="font-heading font-bold text-3xl lg:text-4xl text-secondary-600 leading-tight mb-4 max-w-lg mx-auto">{heading}</h2>
+        <p class="text-gray-600 font-light text-lg leading-relaxed max-w-xl mx-auto mb-8">{desc}</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          {links.map((link) => (
+            <a href={link.href} class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 hover:border-primary-400 text-secondary-600 text-sm font-semibold transition rounded">
+              <Icon name={link.icon} class="w-5 h-5" /> {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
